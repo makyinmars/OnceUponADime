@@ -1,11 +1,8 @@
-import type { NextPage } from 'next'
+import Main from "@/components/ui/main";
+import type { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return (
-  <div>
-      <h1 className="text-center">HELLO</h1>
-    </div>
-  )
-}
+  return <Main />;
+};
 
-export default Home
+export default Home;
