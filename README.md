@@ -1,3 +1,7 @@
+# Development branch
+
+For development includes: features, bugs, task, etc
+
 # Packages
 
 - Redux toolkit
