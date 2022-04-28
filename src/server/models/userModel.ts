@@ -1,14 +1,12 @@
-import mongoose from "mongoose";
+import { Document, model, models, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
-export interface User extends mongoose.Document {
+export interface User extends Document {
   name: string;
   email: string;
   password: string;
   admin: boolean;
 }
-
-const Schema = mongoose.Schema;
 
 // Create a schema using typescript with mongoose
 const userSchema = new Schema<User>(
@@ -51,7 +49,6 @@ userSchema.pre<User>("save", async function (next) {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-const UserModel =
-  mongoose.models.User || mongoose.model<User>("User", userSchema);
+const UserModel = models.User || model<User>("User", userSchema);
 
 export default UserModel;
