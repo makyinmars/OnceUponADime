@@ -6,12 +6,17 @@ export interface User {
   admin: boolean;
 }
 
-export interface LoginForm {
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+export interface Login {
   email: string;
   password: string;
 }
 
-export interface RegisterForm {
+export interface Register {
   name: string;
   email: string;
   password: string;

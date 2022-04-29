@@ -11,18 +11,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json(users);
   } else if (req.method === "POST") {
     const { name, email, password } = req.body;
-    const user = new UserModel({
+    const newUser = new UserModel({
       name,
       email,
       password,
     });
-    await user.save();
+    await newUser.save();
     res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      admin: user.admin,
-      token: generateToken(user._id),
+      user: {
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        admin: newUser.admin,
+      },
+      token: generateToken(newUser._id),
     });
   }
 };

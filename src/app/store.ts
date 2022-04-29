@@ -11,6 +11,7 @@ import {
 
 import authReducer from "./features/auth/authSlice";
 import storage from "./sync-storage";
+import { userApi } from "./services/userApi";
 
 const persistConfig = {
   key: "root",
@@ -20,6 +21,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  [userApi.reducerPath]: userApi.reducer,
   auth: authReducer,
 });
 
@@ -32,7 +34,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(userApi.middleware),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
