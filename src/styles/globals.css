@@ -5,15 +5,39 @@
 @tailwind utilities;
 
 body {
-  @apply bg-violet-300;
+  @apply bg-gradient-to-l from-violet-200 to-violet-300;
 }
 
 @layer components {
-  .font-title {
-    @apply uppercase text-xl font-semibold;
+  .font-header-title {
+    @apply text-xl font-semibold uppercase;
   }
 
   .font-header {
-    @apply uppercase text-sm;
+    @apply text-sm uppercase;
+  }
+
+  .title {
+    @apply text-lg font-semibold uppercase;
+  }
+
+  .container-form {
+    @apply p-4 rounded-md bg-violet-400 md:w-1/4;
+  }
+
+  .label {
+    @apply font-semibold text-center;
+  }
+
+  .input {
+    @apply rounded-md bg-violet-200 border-zinc-400 text-violet-900 focus:border-violet-700 focus:ring-violet-700;
+  }
+
+  .button {
+    @apply p-2 text-lg font-semibold rounded-md border-violet-400 bg-violet-500 hover:bg-violet-600 text-violet-200;
+  }
+
+  .error-form {
+    @apply font-semibold text-center text-red-700;
   }
 }

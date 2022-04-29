@@ -1,10 +1,10 @@
-import { FcBinoculars } from "react-icons/fc";
-import Link from "next/link";
+import { FcBinoculars } from "react-icons/fc"
+import Link from "next/link"
 
 const Header = () => {
   return (
-    <header className="flex justify-around font-header bg-violet-400 py-6">
-      <div className="font-title">
+    <header className="flex justify-around py-6 font-header">
+      <div className="font-header-title">
         <Link href="/">Once Upon A Dime</Link>
       </div>
       <div>
@@ -13,11 +13,11 @@ const Header = () => {
       <div>
         <Link href="/contact">Contact</Link>
       </div>
-      <div className="flex flex-column justify-center items-center gap-2">
+      <div className="flex items-center justify-center gap-2 flex-column">
         Search <FcBinoculars />
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
