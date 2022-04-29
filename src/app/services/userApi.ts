@@ -1,20 +1,20 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
-import { RootState } from "../store";
-import { User, AuthResponse, Login, Register } from "@/types/user";
-import { API_URL } from "@/constants";
+import { RootState } from "../store"
+import { User, AuthResponse, Login, Register } from "@/types/user"
+import { API_URL } from "@/constants"
 
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_URL}/api/user`,
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token;
+      const token = (getState() as RootState).auth.token
 
       if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set("Authorization", `Bearer ${token}`)
       }
-      return headers;
+      return headers
     },
   }),
   tagTypes: ["User"],
@@ -28,6 +28,6 @@ export const userApi = createApi({
       invalidatesTags: ["User"],
     }),
   }),
-});
+})
 
-export const { useRegisterUserMutation } = userApi;
+export const { useRegisterUserMutation } = userApi
