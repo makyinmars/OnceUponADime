@@ -8,7 +8,7 @@ const AdminPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (user === null) {
+    if (user && user.admin === false) {
       router.push("/")
     }
   }, [router, user])

@@ -32,6 +32,46 @@ const LoginPage = () => {
   return (
     <div className="container-flex">
       <h1 className="title">Login</h1>
+      <div className="container-form">
+        <form
+          onSubmit={handleSubmit(onLoginSubmit)}
+          className="grid grid-cols-1 gap-1"
+        >
+          <label htmlFor="email" className="label">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            {...register("email", { required: "The email is required" })}
+            className="input"
+          />
+          {errors.email && <p className="error-form">{errors.email.message}</p>}
+
+          <label htmlFor="password" className="label">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            {...register("password", {
+              required: "The password is required!",
+              minLength: {
+                value: 6,
+                message: "The password must be at least 8 characters long",
+              },
+            })}
+            className="input"
+          />
+          {errors.password && (
+            <p className="error-form">{errors.password.message}</p>
+          )}
+
+          <button type="submit" className="button">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

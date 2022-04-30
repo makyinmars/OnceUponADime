@@ -25,7 +25,7 @@ const Header = () => {
           Search <FcBinoculars />
         </div>
       </header>
-      {user && (
+      {user && user.admin && (
         <>
           <div className="flex items-center justify-center gap-2 text-lg font-semibold">
             {`Welcome ${user.name}!`} <FcApproval />
