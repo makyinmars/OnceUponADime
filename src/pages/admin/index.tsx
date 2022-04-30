@@ -11,7 +11,7 @@ const AdminPage = () => {
     if (user && user.admin === false) {
       router.push("/")
     }
-  }, [router, user])
+  }, [router, user, user?.admin])
   return <div>AdminPage</div>
 }
 

@@ -5,12 +5,16 @@ import { setCredentials } from "@/app/features/auth/authSlice"
 import { useAppDispatch } from "@/app/hooks"
 import { useRegisterUserMutation } from "@/app/services/userApi"
 import { Register } from "@/types/user"
+import { useEffect } from "react"
+import Error from "@/components/common/error"
+import Spinner from "@/components/common/spinner"
 
 const RegisterPage = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
 
-  const [registerUser] = useRegisterUserMutation()
+  const [registerUser, { isError, error, isLoading }] =
+    useRegisterUserMutation()
 
   const {
     register,
@@ -29,6 +33,8 @@ const RegisterPage = () => {
       console.log(e)
     }
   }
+
+  useEffect(() => {}, [error, isError, isLoading])
 
   return (
     <div className="container-flex">
@@ -82,6 +88,8 @@ const RegisterPage = () => {
           <button type="submit" className="button">
             Register
           </button>
+          {isLoading && <Spinner />}
+          {isError && <Error error={error} />}
         </form>
       </div>
     </div>
