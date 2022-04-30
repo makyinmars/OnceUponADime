@@ -5,15 +5,12 @@ import { setCredentials } from "@/app/features/auth/authSlice"
 import { useAppDispatch } from "@/app/hooks"
 import { useRegisterUserMutation } from "@/app/services/userApi"
 import { Register } from "@/types/user"
-import { API_URL } from "@/constants"
 
 const Admin = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  console.log(API_URL)
 
-  const [registerUser, { isLoading, error, isError, isSuccess }] =
-    useRegisterUserMutation()
+  const [registerUser] = useRegisterUserMutation()
 
   const {
     register,
