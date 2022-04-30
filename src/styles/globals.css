@@ -21,6 +21,10 @@ body {
     @apply text-lg font-semibold uppercase;
   }
 
+  .container-flex {
+    @apply flex flex-col items-center justify-center;
+  }
+
   .container-form {
     @apply p-4 rounded-md bg-violet-400 md:w-1/4;
   }

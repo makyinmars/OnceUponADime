@@ -5,10 +5,13 @@ import { setCredentials } from "@/app/features/auth/authSlice"
 import { useAppDispatch } from "@/app/hooks"
 import { useRegisterUserMutation } from "@/app/services/userApi"
 import { Register } from "@/types/user"
+import { API_URL, API_URL_TEST } from "@/constants"
 
-const Admin = () => {
+const RegisterPage = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+
+  console.log(API_URL, API_URL_TEST)
 
   const [registerUser] = useRegisterUserMutation()
 
@@ -31,7 +34,7 @@ const Admin = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="container-flex">
       <h1 className="title">Register</h1>
       <div className="container-form">
         <form
@@ -88,4 +91,4 @@ const Admin = () => {
   )
 }
 
-export default Admin
+export default RegisterPage

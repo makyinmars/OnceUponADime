@@ -21,13 +21,21 @@ export const userApi = createApi({
   endpoints: (builder) => ({
     registerUser: builder.mutation<AuthResponse, Register>({
       query: ({ name, email, password }) => ({
-        url: "",
+        url: "/register",
         method: "POST",
         body: { name, email, password },
+      }),
+      invalidatesTags: ["User"],
+    }),
+    login: builder.mutation<AuthResponse, Login>({
+      query: ({ email, password }) => ({
+        url: "/login",
+        method: "POST",
+        body: { email, password },
       }),
       invalidatesTags: ["User"],
     }),
   }),
 })
 
-export const { useRegisterUserMutation } = userApi
+export const { useRegisterUserMutation, useLoginMutation } = userApi
