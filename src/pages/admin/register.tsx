@@ -5,13 +5,10 @@ import { setCredentials } from "@/app/features/auth/authSlice"
 import { useAppDispatch } from "@/app/hooks"
 import { useRegisterUserMutation } from "@/app/services/userApi"
 import { Register } from "@/types/user"
-import { API_URL, API_URL_TEST } from "@/constants"
 
 const RegisterPage = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-
-  console.log(process.env)
 
   const [registerUser] = useRegisterUserMutation()
 

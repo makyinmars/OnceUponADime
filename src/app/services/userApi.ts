@@ -2,7 +2,14 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 import { RootState } from "../store"
 import { User, AuthResponse, Login, Register } from "@/types/user"
-import { API_URL } from "@/constants"
+
+let API_URL
+
+if (process.env.NODE_ENV === "development") {
+  API_URL = process.env.NEXT_PUBLIC_API_URL_DEV
+} else {
+  API_URL = process.env.NEXT_PUBLIC_API_URL_PROD
+}
 
 export const userApi = createApi({
   reducerPath: "userApi",
