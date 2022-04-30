@@ -11,7 +11,7 @@ const RegisterPage = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
 
-  console.log(API_URL, API_URL_TEST)
+  console.log(process.env)
 
   const [registerUser] = useRegisterUserMutation()
 
