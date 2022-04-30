@@ -1,16 +1,20 @@
+import { useEffect } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useRouter } from "next/router"
 
 import { setCredentials } from "@/app/features/auth/authSlice"
-import { useAppDispatch } from "@/app/hooks"
+import { useAppDispatch, useAppSelector } from "@/app/hooks"
 import { useLoginMutation } from "@/app/services/userApi"
 import { Login } from "@/types/user"
+import Spinner from "@/components/common/spinner"
+import Error from "@/components/common/error"
 
 const LoginPage = () => {
   const dispatch = useAppDispatch()
+  const user = useAppSelector((state) => state.auth.user)
   const router = useRouter()
 
-  const [login] = useLoginMutation()
+  const [login, { error, isError, isLoading }] = useLoginMutation()
 
   const {
     register,
@@ -29,6 +33,12 @@ const LoginPage = () => {
       console.log(e)
     }
   }
+
+  useEffect(() => {
+    if (user && user.admin === false) {
+      router.push("/")
+    }
+  }, [user, router, error, isError, isLoading])
   return (
     <div className="container-flex">
       <h1 className="title">Login</h1>
@@ -58,7 +68,7 @@ const LoginPage = () => {
               required: "The password is required!",
               minLength: {
                 value: 6,
-                message: "The password must be at least 8 characters long",
+                message: "The password must be at least 6 characters long",
               },
             })}
             className="input"
@@ -70,6 +80,8 @@ const LoginPage = () => {
           <button type="submit" className="button">
             Login
           </button>
+          {isLoading && <Spinner />}
+          {isError && <Error error={error} />}
         </form>
       </div>
     </div>

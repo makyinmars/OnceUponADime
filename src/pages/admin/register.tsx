@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useRouter } from "next/router"
 
 import { setCredentials } from "@/app/features/auth/authSlice"
-import { useAppDispatch } from "@/app/hooks"
+import { useAppDispatch, useAppSelector } from "@/app/hooks"
 import { useRegisterUserMutation } from "@/app/services/userApi"
 import { Register } from "@/types/user"
 import { useEffect } from "react"
@@ -12,6 +12,7 @@ import Spinner from "@/components/common/spinner"
 const RegisterPage = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const user = useAppSelector((state) => state.auth.user)
 
   const [registerUser, { isError, error, isLoading }] =
     useRegisterUserMutation()
@@ -34,7 +35,11 @@ const RegisterPage = () => {
     }
   }
 
-  useEffect(() => {}, [error, isError, isLoading])
+  useEffect(() => {
+    if (user && user.admin === false) {
+      router.push("/")
+    }
+  }, [error, isError, isLoading, user, router])
 
   return (
     <div className="container-flex">
@@ -76,7 +81,7 @@ const RegisterPage = () => {
               required: "The password is required!",
               minLength: {
                 value: 6,
-                message: "The password must be at least 8 characters long",
+                message: "The password must be at least 6 characters long",
               },
             })}
             className="input"

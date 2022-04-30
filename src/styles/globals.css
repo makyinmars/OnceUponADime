@@ -44,4 +44,8 @@ body {
   .error-form {
     @apply font-semibold text-center text-red-700;
   }
+
+  .icon-header {
+    @apply w-6 h-6;
+  }
 }
