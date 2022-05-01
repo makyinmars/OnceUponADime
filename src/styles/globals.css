@@ -37,8 +37,12 @@ body {
     @apply rounded-md bg-violet-200 border-zinc-400 text-violet-900 focus:border-violet-700 focus:ring-violet-700;
   }
 
+  .container-button {
+    @apply flex justify-center pt-2;
+  }
+
   .button {
-    @apply p-2 text-lg font-semibold rounded-md border-violet-400 bg-violet-500 hover:bg-violet-600 text-violet-200;
+    @apply p-2 text-lg font-semibold sm:w-80 rounded-md border-violet-400 bg-violet-500 hover:bg-violet-600 text-violet-200;
   }
 
   .error-form {

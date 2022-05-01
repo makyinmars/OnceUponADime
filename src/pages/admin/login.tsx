@@ -77,9 +77,11 @@ const LoginPage = () => {
             <p className="error-form">{errors.password.message}</p>
           )}
 
-          <button type="submit" className="button">
-            Login
-          </button>
+          <div className="container-button">
+            <button type="submit" className="button">
+              Login
+            </button>
+          </div>
           {isLoading && <Spinner />}
           {isError && <Error error={error} />}
         </form>

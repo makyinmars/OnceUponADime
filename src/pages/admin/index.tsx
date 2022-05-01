@@ -21,13 +21,18 @@ const AdminPage = () => {
 
   return (
     <div>
-      <h2>admin</h2>
       {user && user.admin && (
         <>
           <div className="flex items-center justify-center gap-2 text-lg font-semibold">
             {`Welcome ${user.name}!`} <FcApproval />
           </div>
-          <div className="flex flex-col items-center justify-center gap-1">
+          <div className="container-button flex-col items-center gap-2">
+            <button
+              className="button"
+              onClick={() => router.push("/admin/blog")}
+            >
+              Create a new blog
+            </button>
             <button
               className="button"
               onClick={() => dispatch(removeCredentials())}

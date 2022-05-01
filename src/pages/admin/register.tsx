@@ -90,9 +90,11 @@ const RegisterPage = () => {
             <p className="error-form">{errors.password.message}</p>
           )}
 
-          <button type="submit" className="button">
-            Register
-          </button>
+          <div className="container-button">
+            <button type="submit" className="button">
+              Register
+            </button>
+          </div>
           {isLoading && <Spinner />}
           {isError && <Error error={error} />}
         </form>
