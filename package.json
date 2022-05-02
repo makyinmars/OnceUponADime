@@ -21,7 +21,9 @@
     "react-hook-form": "^7.30.0",
     "react-icons": "^4.3.1",
     "react-redux": "^8.0.1",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "slate": "^0.78.0",
+    "slate-react": "^0.78.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.0",

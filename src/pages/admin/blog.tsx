@@ -1,7 +1,12 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
+import { BaseEditor, Descendant } from "slate"
+import { ReactEditor } from "slate-react"
 
 import { useAppSelector } from "@/app/hooks"
+
+type CustomText = { text: string }
+type CustomElement = { type: "paragraph"; children: CustomText[] }
 
 const BlogPage = () => {
   const user = useAppSelector((state) => state.auth.user)
