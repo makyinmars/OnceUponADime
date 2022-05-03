@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useRouter } from "next/router"
-import { BaseEditor, Descendant } from "slate"
-import { ReactEditor } from "slate-react"
 
 import { useAppSelector } from "@/app/hooks"
-
-type CustomText = { text: string }
-type CustomElement = { type: "paragraph"; children: CustomText[] }
+import SlateBlog from "@/components/common/slate"
 
 const BlogPage = () => {
   const user = useAppSelector((state) => state.auth.user)
@@ -24,6 +20,7 @@ const BlogPage = () => {
   return (
     <div>
       <h1>Blog Page</h1>
+      <SlateBlog />
     </div>
   )
 }
