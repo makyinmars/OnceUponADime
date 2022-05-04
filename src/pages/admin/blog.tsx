@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { useRouter } from "next/router"
 
 import { useAppSelector } from "@/app/hooks"
-import SlateBlog from "@/components/common/slate"
+import Tiny from "@/components/common/tiny"
 
 const BlogPage = () => {
   const user = useAppSelector((state) => state.auth.user)
@@ -20,7 +20,7 @@ const BlogPage = () => {
   return (
     <div>
       <h1>Blog Page</h1>
-      <SlateBlog />
+      <Tiny />
     </div>
   )
 }
