@@ -2,7 +2,7 @@ import React, { useRef } from "react"
 import { Editor } from "@tinymce/tinymce-react"
 
 const Tiny = () => {
-  const editorRef = useRef(null)
+  const editorRef = useRef<any>(null)
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent())
@@ -11,7 +11,7 @@ const Tiny = () => {
   return (
     <div className="flex justify-center">
       <Editor
-        onInit={(evt, editor) => (editorRef.current = editor)}
+        onInit={(evt, editor) => (editorRef.current = editor as any)}
         initialValue="<p>This is the initial content of the editor.</p>"
         init={{
           height: 800,
