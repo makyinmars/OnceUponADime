@@ -9,13 +9,13 @@ const Tiny = () => {
     }
   }
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col items-center justify-center gap-2">
       <Editor
         onInit={(evt, editor) => (editorRef.current = editor as any)}
         initialValue="<p>This is the initial content of the editor.</p>"
         init={{
-          height: 800,
-          width: 800,
+          height: 900,
+          width: 900,
           menubar: false,
           plugins: [
             "advlist",
@@ -47,7 +47,9 @@ const Tiny = () => {
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
       />
-      <button onClick={log}>Log editor content</button>
+      <button className="button" onClick={log}>
+        Log editor content
+      </button>
     </div>
   )
 }
