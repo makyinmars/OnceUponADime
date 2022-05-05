@@ -19,7 +19,7 @@ const BlogPage = () => {
 
   return (
     <div>
-      <h1>Blog Page</h1>
+      <h1 className="pb-4 text-center title">Blog Page</h1>
       <Tiny />
     </div>
   )
