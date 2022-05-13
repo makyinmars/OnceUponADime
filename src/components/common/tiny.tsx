@@ -11,14 +11,16 @@ const Tiny = () => {
     formState: { errors },
   } = useForm<Blog>()
 
-  const onBlogSubmit: SubmitHandler<Blog> = async (data) => console.log(data)
-
   const editorRef = useRef<any>(null)
 
-  const log = () => {
+  const onBlogSubmit: SubmitHandler<Blog> = async (data) => {
+    let content: any
     if (editorRef.current) {
       console.log(editorRef.current.getContent())
+      content = editorRef.current?.getContent() as string
     }
+    data.content = content
+    console.log(data, typeof data.content)
   }
 
   return (
@@ -74,16 +76,11 @@ const Tiny = () => {
               "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
           }}
         />
-        <input
-          type="text"
-          {...register("content", { required: "The content is required" })}
-          className="input hidden"
-          defaultValue={editorRef.current.getContent()}
-        />
-        {errors.author && <p className="error-form">{errors.author.message}</p>}
-        <button className="button" type="submit">
-          Log editor content
-        </button>
+        <div className="flex justify-center py-2">
+          <button className="button" type="submit">
+            Log editor content
+          </button>
+        </div>
       </form>
     </div>
   )
