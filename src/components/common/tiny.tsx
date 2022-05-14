@@ -14,13 +14,12 @@ const Tiny = () => {
   const editorRef = useRef<any>(null)
 
   const onBlogSubmit: SubmitHandler<Blog> = async (data) => {
-    let content: any
     if (editorRef.current) {
-      console.log(editorRef.current.getContent())
-      content = editorRef.current?.getContent() as string
+      data.content = editorRef.current?.getContent() as string
+      data.draft = true
+      data.published = false
     }
-    data.content = content
-    console.log(data, typeof data.content)
+    console.log(data)
   }
 
   return (
