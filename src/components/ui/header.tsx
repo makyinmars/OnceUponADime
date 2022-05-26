@@ -13,7 +13,7 @@ const Header = () => {
           <Link href="/">Once Upon A Dime</Link>
         </div>
         <div>
-          <Link href="/blog">Blog</Link>
+          <Link href="/blog">Blogs</Link>
         </div>
         <div>
           <Link href="/contact">Contact</Link>

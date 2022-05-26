@@ -15,12 +15,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } else if (req.method === "PUT") {
     try {
       const { id } = req.query
-      const { author, content, image, summary, draft, published } = req.body
+      const { author, title, content, image, summary, draft, published } =
+        req.body
 
       const blog = await BlogModel.findById(id)
 
       if (blog) {
         blog.author = author
+        blog.title = title
         blog.summary = summary
         blog.image = image
         blog.content = content

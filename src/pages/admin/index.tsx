@@ -26,7 +26,13 @@ const AdminPage = () => {
           <div className="flex items-center justify-center gap-2 text-lg font-semibold">
             {`Welcome ${user.name}!`} <FcApproval />
           </div>
-          <div className="container-button flex-col items-center gap-2">
+          <div className="flex-col items-center gap-2 container-button">
+            <button
+              className="button"
+              onClick={() => router.push("/admin/blogs")}
+            >
+              Blogs
+            </button>
             <button
               className="button"
               onClick={() => router.push("/admin/blog")}

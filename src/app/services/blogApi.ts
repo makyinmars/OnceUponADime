@@ -31,11 +31,44 @@ export const blogApi = createApi({
       query: (_id) => `/${_id}`,
       providesTags: ["Blog"],
     }),
+    createBlog: builder.mutation<Blog, Blog>({
+      query: ({
+        author,
+        title,
+        summary,
+        image,
+        content,
+        draft,
+        published,
+      }) => ({
+        url: "/",
+        method: "POST",
+        body: {
+          author,
+          title,
+          summary,
+          image,
+          content,
+          draft,
+          published,
+        },
+      }),
+      invalidatesTags: ["Blog"],
+    }),
     updateBlog: builder.mutation<Blog, Blog>({
-      query: ({ _id, author, summary, image, content, draft, published }) => ({
+      query: ({
+        _id,
+        author,
+        title,
+        summary,
+        image,
+        content,
+        draft,
+        published,
+      }) => ({
         url: `/${_id}`,
         method: "PUT",
-        body: { author, summary, image, content, draft, published },
+        body: { author, title, summary, image, content, draft, published },
       }),
       invalidatesTags: ["Blog"],
     }),

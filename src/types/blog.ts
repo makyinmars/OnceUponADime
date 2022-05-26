@@ -1,6 +1,7 @@
 export interface Blog {
   _id: string
   author: string
+  title: string
   summary: string
   image: string
   content: string
