@@ -15,12 +15,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } else if (req.method === "PUT") {
     try {
       const { id } = req.query
-      const { author, content, draft, published } = req.body
+      const { author, content, summary, draft, published } = req.body
 
       const blog = await BlogModel.findById(id)
 
       if (blog) {
         blog.author = author
+        blog.summary = summary
         blog.content = content
         blog.draft = draft
         blog.published = published
@@ -35,7 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(500).json(error)
     }
   } else if (req.method === "DELETE") {
-    const { id } = req.body
+    const { id } = req.query
     try {
       await BlogModel.findByIdAndDelete(id)
       res.status(200).json({ message: "Blog deleted" })
