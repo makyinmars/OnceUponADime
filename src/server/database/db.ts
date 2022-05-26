@@ -1,4 +1,4 @@
-import mongoose, { ConnectOptions } from "mongoose";
+import mongoose from "mongoose";
 import type { NextApiResponse, NextApiRequest, NextApiHandler } from "next";
 
 const connectDB =

@@ -6,13 +6,21 @@ import BlogModel from "@/server/models/blogModel"
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     // Get all blogs
-    const blogs = await BlogModel.find()
-    res.status(200).json(blogs)
+    try {
+      const blogs = await BlogModel.find()
+      res.status(200).json(blogs)
+    } catch (error) {
+      res.status(500).json(error)
+    }
   } else if (req.method === "POST") {
-    const { author, content, draft, published } = req.body
-    const blog = new BlogModel({ author, content, draft, published })
-    await blog.save()
-    res.status(200).json(blog)
+    try {
+      const { author, content, draft, published } = req.body
+      const blog = new BlogModel({ author, content, draft, published })
+      await blog.save()
+      res.status(200).json(blog)
+    } catch (error) {
+      res.status(500).json(error)
+    }
   }
 }
 
