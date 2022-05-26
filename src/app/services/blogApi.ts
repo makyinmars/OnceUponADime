@@ -32,10 +32,10 @@ export const blogApi = createApi({
       providesTags: ["Blog"],
     }),
     updateBlog: builder.mutation<Blog, Blog>({
-      query: ({ _id, author, content, draft, published }) => ({
+      query: ({ _id, author, summary, image, content, draft, published }) => ({
         url: `/${_id}`,
         method: "PUT",
-        body: { author, content, draft, published },
+        body: { author, summary, image, content, draft, published },
       }),
       invalidatesTags: ["Blog"],
     }),

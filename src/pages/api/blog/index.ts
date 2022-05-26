@@ -14,8 +14,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } else if (req.method === "POST") {
     try {
-      const { author, summary, content, draft, published } = req.body
-      const blog = new BlogModel({ author, summary, content, draft, published })
+      const { author, summary, image, content, draft, published } = req.body
+      const blog = new BlogModel({
+        author,
+        summary,
+        image,
+        content,
+        draft,
+        published,
+      })
       await blog.save()
       res.status(200).json(blog)
     } catch (error) {

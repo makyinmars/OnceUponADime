@@ -3,6 +3,7 @@ import { Document, model, models, Schema } from "mongoose"
 export interface Blog extends Document {
   author: string
   summary: string
+  image: string
   content: string
   draft: boolean
   published: boolean
@@ -18,6 +19,10 @@ const blogSchema = new Schema<Blog>(
     summary: {
       type: String,
       required: true,
+    },
+    image: {
+      type: String,
+      required: false,
     },
     content: {
       type: String,
