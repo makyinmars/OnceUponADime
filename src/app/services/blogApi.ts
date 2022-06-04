@@ -87,4 +87,5 @@ export const {
   useGetBlogQuery,
   useDeleteBlogMutation,
   useUpdateBlogMutation,
+  useCreateBlogMutation,
 } = blogApi

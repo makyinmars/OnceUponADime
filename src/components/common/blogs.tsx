@@ -12,7 +12,7 @@ const Blogs = () => {
         {data &&
           data.map((blog) => (
             <div
-              className="flex flex-col p-1 bg-gray-100 rounded shadow shadow-xl shadow-violet-800"
+              className="flex flex-col p-1 bg-gray-100 rounded shadow shadow-lg shadow-violet-800"
               key={blog._id}
             >
               <Image
@@ -29,7 +29,6 @@ const Blogs = () => {
               <div className="p-1 my-1 rounded bg-violet-200">
                 <h2>By {blog.author}</h2>
                 <p>Summary: {blog.summary}</p>
-                <p>Content: {blog.content}</p>
                 <p>Draft: {blog.draft ? "Yes" : "No"}</p>
                 <p>Published: {blog.published ? "Yes" : "No"}</p>
                 <p>Created: {blog.createdAt}</p>
