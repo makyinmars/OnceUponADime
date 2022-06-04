@@ -1,5 +1,6 @@
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 import { useGetBlogsQuery } from "@/app/services/blogApi"
 
@@ -34,6 +35,9 @@ const Blogs = () => {
                 <p>Created: {blog.createdAt}</p>
                 <p>Updated: {blog.updatedAt}</p>
               </div>
+              <Link href={`/blog/${blog._id}`}>
+                <a className="flex gap-1 link">Read more {`>`}</a>
+              </Link>
             </div>
           ))}
       </div>

@@ -2,8 +2,8 @@ import React from "react"
 
 import Blogs from "@/components/common/blogs"
 
-const Blog = () => {
+const BlogsPage = () => {
   return <Blogs />
 }
 
-export default Blog
+export default BlogsPage

@@ -13,7 +13,7 @@ const Header = () => {
           <Link href="/">Once Upon A Dime</Link>
         </div>
         <div>
-          <Link href="/blog">Blogs</Link>
+          <Link href="/blogs">Blogs</Link>
         </div>
         <div>
           <Link href="/contact">Contact</Link>
@@ -24,7 +24,7 @@ const Header = () => {
         {user && user.admin && (
           <div>
             <Link href="/admin">
-              <a href="">
+              <a>
                 <FcBusinesswoman className="icon-header" />
               </a>
             </Link>
