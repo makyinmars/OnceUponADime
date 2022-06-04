@@ -11,7 +11,7 @@ interface BlogProps {
 
 const Blog = ({ data }: BlogProps) => {
   return (
-    <div className="grid max-w-md grid-cols-1 px-3 py-1 mx-auto rounded bg-violet-200">
+    <div className="grid max-w-lg grid-cols-1 px-3 py-1 mx-auto rounded sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl bg-violet-200">
       <div className="grid grid-cols-1">
         <h1 className="title place-self-center">{data.title}</h1>
         <h3 className="py-1 text-lg">{data.summary}</h3>
