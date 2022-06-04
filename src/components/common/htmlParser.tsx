@@ -5,7 +5,7 @@ interface HTMLParserProps {
 }
 
 const HTMLParser = ({ content }: HTMLParserProps) => {
-  return <div>{parse(content)}</div>
+  return <div className="pt-1">{parse(content)}</div>
 }
 
 export default HTMLParser

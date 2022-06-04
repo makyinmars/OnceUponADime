@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gradient-to-l from-violet-200 to-violet-300;
+  @apply bg-gradient-to-l from-violet-300 to-violet-300;
 }
 
 @layer components {
@@ -18,7 +18,7 @@ body {
   }
 
   .title {
-    @apply text-lg font-semibold uppercase;
+    @apply text-xl font-semibold uppercase;
   }
 
   .container-flex {
