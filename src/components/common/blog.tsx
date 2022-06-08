@@ -1,9 +1,7 @@
-import Image from "next/image"
-
 import HTMLParser from "./htmlParser"
 import { Blog } from "@/types/blog"
 import { formatDate } from "@/utils/date"
-import blog from "@/pages/api/blog"
+import Image from "./image"
 
 interface BlogProps {
   data: Blog
@@ -16,14 +14,7 @@ const Blog = ({ data }: BlogProps) => {
         <h1 className="title place-self-center">{data.title}</h1>
         <h3 className="py-1 text-lg">{data.summary}</h3>
         <time className="pb-1 italic">{formatDate(data.createdAt)}</time>
-        <Image
-          className="rounded"
-          src={data.image}
-          width={300}
-          height={300}
-          priority={true}
-          alt={data.title}
-        />
+        <Image src={data.image} alt={data.title} />
         <HTMLParser content={data.content} />
       </div>
     </div>
