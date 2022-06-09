@@ -1,7 +1,7 @@
 import HTMLParser from "./htmlParser"
 import { Blog } from "@/types/blog"
 import { formatDate } from "@/utils/date"
-import Image from "./image"
+import Image from "next/image"
 
 interface BlogProps {
   data: Blog
@@ -9,12 +9,20 @@ interface BlogProps {
 
 const Blog = ({ data }: BlogProps) => {
   return (
-    <div className="grid max-w-lg grid-cols-1 px-3 py-1 mx-auto rounded sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl bg-violet-200">
-      <div className="grid grid-cols-1">
+    <div className="max-w-lg px-3 py-1 mx-auto rounded sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl bg-violet-200">
+      <div className="flex flex-col">
         <h1 className="title place-self-center">{data.title}</h1>
-        <h3 className="py-1 text-lg">{data.summary}</h3>
         <time className="pb-1 italic">{formatDate(data.createdAt)}</time>
-        <Image src={data.image} alt={data.title} />
+        <h3 className="py-1 text-lg">{data.summary}</h3>
+        <div className="flex self-center">
+          <Image
+            src={data.image}
+            alt={data.title}
+            height={300}
+            width={300}
+            className="rounded"
+          />
+        </div>
         <HTMLParser content={data.content} />
       </div>
     </div>
