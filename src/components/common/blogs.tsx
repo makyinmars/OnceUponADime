@@ -1,11 +1,18 @@
 import React from "react"
 import Image from "next/image"
 import Link from "next/link"
+import readingTime from "reading-time/lib/reading-time"
 
 import { useGetBlogsQuery } from "@/app/services/blogApi"
 
 const Blogs = () => {
   const { data } = useGetBlogsQuery()
+
+  const readTime = (content: string) => {
+    const { minutes } = readingTime(content)
+    console.log(minutes)
+    return minutes
+  }
 
   return (
     <div className="grid items-center justify-center max-w-md grid-cols-1 gap-4 p-2 mx-auto sm:max-w-7xl">
@@ -13,7 +20,7 @@ const Blogs = () => {
         {data &&
           data.map((blog) => (
             <div
-              className="flex flex-col p-1 bg-gray-100 rounded shadow shadow-lg shadow-violet-800"
+              className="flex flex-col p-1 bg-gray-100 rounded shadow-lg shadow-violet-800"
               key={blog._id}
             >
               <Image
@@ -35,6 +42,12 @@ const Blogs = () => {
                 <p>Created: {blog.createdAt}</p>
                 <p>Updated: {blog.updatedAt}</p>
               </div>
+              <p>
+                Reading time:{" "}
+                {readTime(blog.content) < 1
+                  ? "1 minute"
+                  : `${readTime(blog.content)} minutes`}
+              </p>
               <Link href={`/blog/${blog._id}`}>
                 <a className="flex gap-1 link">Read more {`>`}</a>
               </Link>
