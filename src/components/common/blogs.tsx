@@ -9,8 +9,8 @@ const Blogs = () => {
   const { data } = useGetBlogsQuery()
 
   const readTime = (content: string) => {
-    const { minutes } = readingTime(content)
-    return minutes
+    const { text } = readingTime(content)
+    return text
   }
 
   return (
@@ -41,12 +41,7 @@ const Blogs = () => {
                 <p>Created: {blog.createdAt}</p>
                 <p>Updated: {blog.updatedAt}</p>
               </div>
-              <p>
-                Reading time:{" "}
-                {readTime(blog.content) < 1
-                  ? "1 minute"
-                  : `${readTime(blog.content)} minutes`}
-              </p>
+              <p>Reading time: {readTime(blog.content)}</p>
               <Link href={`/blog/${blog._id}`}>
                 <a className="flex gap-1 link">Read more {`>`}</a>
               </Link>
