@@ -10,7 +10,6 @@ const Blogs = () => {
 
   const readTime = (content: string) => {
     const { minutes } = readingTime(content)
-    console.log(minutes)
     return minutes
   }
 
