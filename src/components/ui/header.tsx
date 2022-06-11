@@ -8,7 +8,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex items-center justify-around py-6 font-header">
+      <header className="flex flex-col items-center justify-center gap-2 py-6 sm:flex-row sm:justify-evenly font-header">
         <div className="font-header-title">
           <Link href="/">Once Upon A Dime</Link>
         </div>
@@ -21,15 +21,15 @@ const Header = () => {
         <div className="flex items-center justify-center gap-2 flex-column">
           Search <FcBinoculars className="icon-header" />
         </div>
-        {user && user.admin && (
-          <div>
+        <div>
+          {user && user.admin && (
             <Link href="/admin">
               <a>
                 <FcBusinesswoman className="icon-header" />
               </a>
             </Link>
-          </div>
-        )}
+          )}
+        </div>
       </header>
     </>
   )
