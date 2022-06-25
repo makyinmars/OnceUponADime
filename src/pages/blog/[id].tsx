@@ -11,7 +11,7 @@ const BlogId = () => {
     refetchOnMountOrArgChange: true,
   })
 
-  return <>{data && <Blog data={data} />}</>
+  return <>{data && <Blog blog={data} />}</>
 }
 
 export default BlogId

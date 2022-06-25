@@ -23,8 +23,8 @@ const Tiny = () => {
       data.published = false
     }
     try {
-      const user = await createBlog(data).unwrap()
-      console.log(user)
+      const blog = await createBlog(data).unwrap()
+      console.log(blog)
     } catch (e) {
       console.log(e)
     }
