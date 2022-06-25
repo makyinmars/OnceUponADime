@@ -39,6 +39,7 @@ const LoginPage = () => {
       router.push("/")
     }
   }, [user, router, error, isError, isLoading])
+
   return (
     <div className="container-flex">
       <h1 className="title">Login</h1>
