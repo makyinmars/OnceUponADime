@@ -2,10 +2,10 @@ import React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { FcRemoveImage } from "react-icons/fc"
-import readingTime from "reading-time/lib/reading-time"
 
 import { useDeleteBlogMutation, useGetBlogsQuery } from "@/app/services/blogApi"
-import {  useAppSelector } from "@/app/hooks"
+import { useAppSelector } from "@/app/hooks"
+import { readTime } from "@/utils/readingTime"
 
 const Blogs = () => {
   const user = useAppSelector((state) => state.auth.user)
@@ -18,11 +18,6 @@ const Blogs = () => {
     try {
       await deleteBlog(blogId)
     } catch (e) {}
-  }
-
-  const readTime = (content: string) => {
-    const { text } = readingTime(content)
-    return text
   }
 
   return (

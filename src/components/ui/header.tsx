@@ -21,15 +21,15 @@ const Header = () => {
         <div className="flex items-center justify-center gap-2 flex-column">
           Search <FcBinoculars className="icon-header" />
         </div>
-        <div>
-          {user && user.admin && (
+        {user && user.admin && (
+          <div>
             <Link href="/admin">
               <a>
                 <FcBusinesswoman className="icon-header" />
               </a>
             </Link>
-          )}
-        </div>
+          </div>
+        )}
       </header>
     </>
   )
