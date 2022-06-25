@@ -1,12 +1,24 @@
 import React from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { FcRemoveImage } from "react-icons/fc"
 import readingTime from "reading-time/lib/reading-time"
 
-import { useGetBlogsQuery } from "@/app/services/blogApi"
+import { useDeleteBlogMutation, useGetBlogsQuery } from "@/app/services/blogApi"
+import {  useAppSelector } from "@/app/hooks"
 
 const Blogs = () => {
+  const user = useAppSelector((state) => state.auth.user)
+
   const { data } = useGetBlogsQuery()
+
+  const [deleteBlog] = useDeleteBlogMutation()
+
+  const onDeleteBlog = async (blogId: string) => {
+    try {
+      await deleteBlog(blogId)
+    } catch (e) {}
+  }
 
   const readTime = (content: string) => {
     const { text } = readingTime(content)
@@ -42,9 +54,16 @@ const Blogs = () => {
                 <p>Updated: {blog.updatedAt}</p>
               </div>
               <p>Reading time: {readTime(blog.content)}</p>
-              <Link href={`/blog/${blog._id}`}>
-                <a className="flex gap-1 link">Read more {`>`}</a>
-              </Link>
+              <div className="flex justify-between">
+                <Link href={`/blog/${blog._id}`}>
+                  <a className="flex gap-1 link">Read more {`>`}</a>
+                </Link>
+                {user?.admin && (
+                  <button onClick={() => onDeleteBlog(blog._id)}>
+                    <FcRemoveImage className="w-8 h-8" />
+                  </button>
+                )}
+              </div>
             </div>
           ))}
       </div>
