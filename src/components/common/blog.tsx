@@ -1,6 +1,7 @@
 import HTMLParser from "./htmlParser"
 import { Blog } from "@/types/blog"
 import { formatDate } from "@/utils/date"
+import Image from "next/image"
 
 interface BlogProps {
   blog: Blog
@@ -14,9 +15,11 @@ const Blog = ({ blog }: BlogProps) => {
         <time className="pb-1 italic">{formatDate(blog.createdAt)}</time>
         <h3 className="py-1 text-lg">{blog.summary}</h3>
         <div className="flex self-center">
-          <img
+          <Image
             src={blog.image}
             alt={blog.title}
+            height={300}
+            width={300}
             className="rounded"
           />
         </div>

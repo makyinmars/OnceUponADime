@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 import Link from "next/link"
 import readingTime from "reading-time/lib/reading-time"
 
@@ -21,10 +22,13 @@ const Blogs = () => {
               className="flex flex-col p-1 bg-gray-100 rounded shadow-lg shadow-violet-800"
               key={blog._id}
             >
-              <img
+              <Image
                 className="rounded"
                 src={blog.image}
+                width={300}
+                height={300}
                 alt={blog.title}
+                priority={true}
               />
               <h1 className="self-center pt-1 text-lg font-semibold md:text-xl">
                 {blog.title}
