@@ -4,8 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-gradient-to-l from-violet-300 to-violet-300;
+@layer base {
+  body {
+    @apply bg-violet-400 text-neutral-100;
+  }
 }
 
 @layer components {
