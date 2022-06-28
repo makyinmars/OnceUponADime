@@ -1,7 +1,6 @@
 import Main from "@/components/ui/main";
-import type { NextPage } from "next";
 
-const Home: NextPage = () => {
+const Home = () => {
   return <Main />;
 };
 
