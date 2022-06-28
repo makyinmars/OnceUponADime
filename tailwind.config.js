@@ -4,7 +4,7 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      sans: ["Plus Jakarta Sans", ...defaultTheme.fontFamily.sans],
+      sans: ["Playfair Display", ...defaultTheme.fontFamily.sans],
     },
     extend: {},
   },
