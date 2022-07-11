@@ -1,11 +1,3 @@
-# Development branch
+# Create T3 App
 
-For development includes: features, bugs, task, etc
-
-# Packages
-
-- Redux toolkit
-- Mongoose
-- AWS
-- React hook form
-- Tailwindcss
+This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
