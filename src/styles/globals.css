@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-violet-400 text-neutral-100;
+    @apply bg-violet-900 text-slate-300;
   }
 }
 

@@ -8,15 +8,12 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex flex-col items-center justify-center gap-2 py-6 sm:flex-row sm:justify-evenly font-header">
+      <header className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:justify-evenly font-header">
         <div className="font-header-title">
           <Link href="/">Once Upon A Dime</Link>
         </div>
         <div>
           <Link href="/blogs">Blogs</Link>
-        </div>
-        <div>
-          <Link href="/contact">Contact</Link>
         </div>
         <div className="flex items-center justify-center gap-2 flex-column">
           Search <FcBinoculars className="icon-header" />
