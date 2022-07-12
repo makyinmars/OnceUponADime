@@ -24,10 +24,10 @@ const Blogs = () => {
     <div className="grid items-center justify-center max-w-md grid-cols-1 gap-4 p-2 mx-auto sm:max-w-7xl">
       <div className="grid items-center justify-center grid-cols-1 gap-3 mx-2 sm:grid-cols-2 lg:grid-cols-3">
         {data &&
-          data.map((blog) => (
+          data.map((blog, i) => (
             <div
               className="flex flex-col p-1 bg-gray-100 rounded shadow-lg shadow-violet-800"
-              key={blog._id}
+              key={i}
             >
               <Image
                 className="rounded"
