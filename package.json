@@ -13,7 +13,7 @@
     "@tinymce/tinymce-react": "^4.0.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "html-react-parser": "^1.4.14",
+    "html-react-parser": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.3",
     "next": "12.1.6",
