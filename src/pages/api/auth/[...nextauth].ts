@@ -1,18 +1,20 @@
 import NextAuth, { type NextAuthOptions } from "next-auth"
-import GithubProvider from "next-auth/providers/github"
+import DiscordProvider from "next-auth/providers/discord"
+import TwitchProvider from "next-auth/providers/twitch"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { prisma } from "@/server/db/client"
+import { env } from "@/server/env"
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+    TwitchProvider({
+      clientId: env.TWITCH_CLIENT_ID,
+      clientSecret: env.TWITCH_CLIENT_SECRET,
     }),
     // ...add more providers here
     CredentialsProvider({
