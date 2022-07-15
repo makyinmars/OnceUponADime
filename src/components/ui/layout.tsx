@@ -7,9 +7,11 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="m-4">
+    <div className="py-4">
       <Header />
-      {children}
+      <div className="p-4 bg-gradient-to-r from-indigo-200 via-purple-300 to-pink-200 text-slate-700">
+        {children}
+      </div>
       <Footer />
     </div>
   )

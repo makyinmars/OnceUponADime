@@ -1,10 +1,14 @@
 import Link from "next/link"
 
+import { FcHome } from "react-icons/fc"
+
 const Header = () => {
   return (
-    <header className="flex text-lg font-bold justify-evenly">
+    <header className="flex items-center pb-4 text-lg font-bold justify-evenly">
       <Link href="/">
-        <div>once upon a dime</div>
+        <a>
+          <FcHome className="w-8 h-8" />
+        </a>
       </Link>
       <Link href="/blogs">
         <div>blogs</div>
