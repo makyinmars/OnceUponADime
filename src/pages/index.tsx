@@ -1,8 +1,8 @@
 import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
-import { trpc } from "../utils/trpc"
-import React from "react"
+
+import { trpc } from "@/utils/trpc"
 
 const latestBlogs = [
   {
