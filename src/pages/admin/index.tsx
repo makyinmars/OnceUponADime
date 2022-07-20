@@ -1,11 +1,15 @@
 import Link from "next/link"
 import { FcHome } from "react-icons/fc"
+import { useStore } from "@/utils/zustand"
 
 interface AdminLayoutProps {
   children: React.ReactNode
 }
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
+  const { user } = useStore()
+  console.log(user)
+
   return (
     <div>
       <div>

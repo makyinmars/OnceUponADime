@@ -3,6 +3,8 @@ import { useEffect } from "react"
 import { useRouter } from "next/router"
 
 import { trpc } from "@/utils/trpc"
+import { useStore } from "@/utils/zustand"
+import { User } from "@prisma/client"
 
 const SignIn = () => {
   const router = useRouter()
@@ -15,11 +17,16 @@ const SignIn = () => {
     { email },
   ])
 
+  // If the data is available, use useStore to setUser.
+  // This will trigger the user to be logged in.
+  const { setUser } = useStore()
+
   useEffect(() => {
     if (data?.isAdmin) {
       router.push("/admin/")
+      setUser(data as User)
     }
-  }, [router, data?.isAdmin])
+  }, [router, setUser, data])
 
   return (
     <div>
