@@ -1,14 +1,21 @@
 import Link from "next/link"
 import { FcHome } from "react-icons/fc"
+
 import { useStore } from "@/utils/zustand"
+import { useRouter } from "next/router"
 
 interface AdminLayoutProps {
   children: React.ReactNode
 }
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
-  const { user } = useStore()
-  console.log(user)
+  const router = useRouter()
+  const { user, removeUser } = useStore()
+
+  const onSignOut = () => {
+    removeUser()
+    router.push("/")
+  }
 
   return (
     <div>
@@ -29,6 +36,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <Link href="/admin/new-blog">
             <h2>Create New Blog</h2>
           </Link>
+          <div onClick={() => onSignOut()}>Logout</div>
         </div>
       </div>
       {children}

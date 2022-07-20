@@ -12,14 +12,14 @@ const SignIn = () => {
   const { data: session } = useSession()
   const email = session?.user?.email as string
 
-  const { data, error, isError } = trpc.useQuery([
-    "user.getUserByEmail",
-    { email },
-  ])
+  const { data } = trpc.useQuery(["user.getUserByEmail", { email }])
 
-  // If the data is available, use useStore to setUser.
-  // This will trigger the user to be logged in.
-  const { setUser } = useStore()
+  const { setUser, removeUser } = useStore()
+
+  const onSignOut = () => {
+    removeUser()
+    signOut()
+  }
 
   useEffect(() => {
     if (data?.isAdmin) {
@@ -34,7 +34,7 @@ const SignIn = () => {
         <div className="flex flex-col items-center justify-center gap-2">
           <p>Signed in as {session.user?.email}</p>
           <button
-            onClick={() => signOut()}
+            onClick={() => onSignOut()}
             className="p-2 mx-auto rounded bg-slate-200"
           >
             Sign out

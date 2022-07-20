@@ -6,6 +6,7 @@ interface UserState {
   user: User
   setUser: (data: User) => void
   getUser: () => User
+  removeUser: () => void
 }
 
 export const useStore = create<UserState>()(
@@ -16,6 +17,7 @@ export const useStore = create<UserState>()(
       getUser() {
         return get().user as User
       },
+      removeUser: () => set(() => ({ user: {} as User })),
     }))
   )
 )
