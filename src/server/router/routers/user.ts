@@ -7,12 +7,11 @@ export const userRouter = createRouter().query("getUserByEmail", {
     email: z.string(),
   }),
   resolve: async ({ input, ctx }) => {
-    const user = await ctx.prisma.user.findFirstOrThrow({
+    const user = await ctx.prisma.user.findUnique({
       where: {
         email: input.email,
       },
     })
-
     return user
   },
 })
