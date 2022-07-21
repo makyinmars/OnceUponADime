@@ -7,6 +7,8 @@ const defaultBlogSelect = Prisma.validator<Prisma.BlogSelect>()({
   id: true,
   title: true,
   author: true,
+  draft: true,
+  published: true,
   summary: true,
   content: true,
   imageUrl: true,
@@ -68,6 +70,36 @@ export const blogRouter = createRouter()
   .query("getBlogs", {
     async resolve({ ctx }) {
       return await ctx.prisma.blog.findMany({
+        select: defaultBlogSelect,
+      })
+    },
+  })
+  .query("getDraftBlogs", {
+    async resolve({ ctx }) {
+      return await ctx.prisma.blog.findMany({
+        where: {
+          draft: {
+            equals: true,
+          },
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: defaultBlogSelect,
+      })
+    },
+  })
+  .query("getPublishedBlogs", {
+    async resolve({ ctx }) {
+      return await ctx.prisma.blog.findMany({
+        where: {
+          published: {
+            equals: true,
+          },
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
         select: defaultBlogSelect,
       })
     },

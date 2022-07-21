@@ -10,7 +10,7 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   const router = useRouter()
-  const { user, removeUser } = useStore()
+  const { removeUser } = useStore()
 
   const onSignOut = () => {
     removeUser()

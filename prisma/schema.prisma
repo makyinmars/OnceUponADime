@@ -17,6 +17,8 @@ model Blog {
   summary   String
   content   String
   imageUrl  String
+  draft     Boolean   @default(true)
+  published Boolean   @default(false)
   Comments  Comment[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
