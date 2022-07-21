@@ -67,6 +67,28 @@ export const blogRouter = createRouter()
       })
     },
   })
+  .query("getPublishedBlog", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input, ctx }) {
+      return await ctx.prisma.blog.findFirstOrThrow({
+        where: { id: input.id, published: true },
+        select: defaultBlogSelect,
+      })
+    },
+  })
+  .query("getDraftBlog", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input, ctx }) {
+      return await ctx.prisma.blog.findFirstOrThrow({
+        where: { id: input.id, draft: true },
+        select: defaultBlogSelect,
+      })
+    },
+  })
   .query("getBlogs", {
     async resolve({ ctx }) {
       return await ctx.prisma.blog.findMany({

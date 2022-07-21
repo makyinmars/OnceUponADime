@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import { trpc } from "@/utils/trpc"
 
 const Published = () => {
@@ -6,6 +8,7 @@ const Published = () => {
     <div>
       <h2 className="text-center">Published</h2>
       {isLoading && <div>Loading...</div>}
+      {isError && <div>Error!</div>}
       {data && (
         <div>
           {data.map((blog) => (
@@ -15,6 +18,9 @@ const Published = () => {
               <p>{blog.summary}</p>
               <img src={blog.imageUrl} alt={blog.title} />
               <p>{blog.content}</p>
+              <Link href={`/admin/published/${blog.id}`}>
+                <p>View Published Bog</p>
+              </Link>
             </div>
           ))}
         </div>

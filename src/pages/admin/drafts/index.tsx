@@ -1,8 +1,8 @@
 import { trpc } from "@/utils/trpc"
+import Link from "next/link"
 
 const Drafts = () => {
   const { data, isError, isLoading } = trpc.useQuery(["blog.getDraftBlogs"])
-  console.log(data)
   return (
     <div>
       <h2>Drafts</h2>
@@ -17,6 +17,9 @@ const Drafts = () => {
               <p>{blog.summary}</p>
               <img src={blog.imageUrl} alt={blog.title} />
               <p>{blog.content}</p>
+              <Link href={`/admin/drafts/${blog.id}`}>
+                <p>View Draft</p>
+              </Link>
             </div>
           ))}
         </div>
