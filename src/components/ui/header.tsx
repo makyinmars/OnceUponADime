@@ -10,8 +10,6 @@ const Header = () => {
 
   const [u, setU] = useState<User | null>(null)
 
-  console.log(u)
-
   useEffect(() => {
     setU(user)
   }, [user])

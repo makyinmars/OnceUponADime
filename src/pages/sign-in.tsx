@@ -1,32 +1,21 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useEffect } from "react"
-import { useRouter } from "next/router"
+import { User } from "@prisma/client"
 
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
-import { User } from "@prisma/client"
 
 const SignIn = () => {
-  const router = useRouter()
-
   const { data: session } = useSession()
   const email = session?.user?.email as string
 
   const { data } = trpc.useQuery(["user.getUserByEmail", { email }])
 
-  const { setUser, removeUser } = useStore()
-
-  const onSignOut = () => {
-    removeUser()
-    signOut()
-  }
+  const { setUser } = useStore()
 
   useEffect(() => {
-    if (data?.isAdmin) {
-      router.push("/admin/")
-      setUser(data as User)
-    }
-  }, [router, setUser, data])
+    setUser(data as User)
+  }, [setUser, data])
 
   return (
     <div>
@@ -34,7 +23,7 @@ const SignIn = () => {
         <div className="flex flex-col items-center justify-center gap-2">
           <p>Signed in as {session.user?.email}</p>
           <button
-            onClick={() => onSignOut()}
+            onClick={() => signOut()}
             className="p-2 mx-auto rounded bg-slate-200"
           >
             Sign out
