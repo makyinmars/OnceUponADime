@@ -1,29 +1,72 @@
 import { useSession, signIn, signOut } from "next-auth/react"
-import { useEffect } from "react"
-import { User } from "@prisma/client"
+import { GetServerSidePropsContext } from "next"
 
+import { getOnceUponADimeAuthSession } from "@/server/common/get-server-session"
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
-import { GetServerSidePropsContext } from "next"
-import { getOnceUponADimeAuthSession } from "@/server/common/get-server-session"
+import { useEffect, useMemo } from "react"
+import { User } from "@prisma/client"
 
 const SignIn = () => {
   const { data: session } = useSession()
-  const email = session?.user?.email as string
+  const { setUser, user } = useStore()
 
-  const { data } = trpc.useQuery(["user.getUserByEmail", { email }])
+  console.log(user)
 
-  const { setUser } = useStore()
+  let dataUser: User | null = user ? user : null
+
+  if (session) {
+    const email = session.user?.email as string
+    const { data, isLoading } = trpc.useQuery([
+      "user.getUserByEmail",
+      { email },
+    ])
+    if (data) {
+      dataUser = data
+    }
+  }
 
   useEffect(() => {
-    setUser(data as User)
-  }, [setUser, data])
+    if (!session) {
+      setUser(null)
+    } else {
+      setUser(dataUser)
+    }
+  }, [session, setUser, dataUser])
 
-  return (
-    <div>
-      {session ? (
-        <div className="flex flex-col items-center justify-center gap-2">
+  if (session) {
+    const email = session.user?.email as string
+    const { data, isLoading } = trpc.useQuery([
+      "user.getUserByEmail",
+      { email },
+    ])
+    if (isLoading) {
+      return <div>Loading...</div>
+    }
+    if (data?.isAdmin) {
+      return (
+        <div className="flex flex-col items-center justify-center gap-4">
+          <p className="text-lg">Signed in as {data.name}</p>
+          <p></p>
+          <button
+            onClick={() => signOut()}
+            className="p-2 mx-auto rounded bg-slate-200"
+          >
+            Sign out
+          </button>
+          <button
+            onClick={() => setUser(data)}
+            className="p-2 mx-auto rounded bg-slate-200"
+          >
+            Admin page
+          </button>
+        </div>
+      )
+    } else {
+      return (
+        <div className="flex flex-col">
           <p>Signed in as {session.user?.email}</p>
+          <p>You are not an admin but you can comment on blogs!!</p>
           <button
             onClick={() => signOut()}
             className="p-2 mx-auto rounded bg-slate-200"
@@ -31,19 +74,23 @@ const SignIn = () => {
             Sign out
           </button>
         </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center gap-2">
-          <p>Not signed in</p>
-          <button
-            onClick={() => signIn()}
-            className="p-2 mx-auto rounded bg-slate-200"
-          >
-            Sign in
-          </button>
-        </div>
-      )}
-    </div>
-  )
+      )
+    }
+  }
+
+  if (!session) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2">
+        <p>Not signed in</p>
+        <button
+          onClick={() => signIn()}
+          className="p-2 mx-auto rounded bg-slate-200"
+        >
+          Sign in
+        </button>
+      </div>
+    )
+  }
 }
 
 export default SignIn

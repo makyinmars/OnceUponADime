@@ -12,15 +12,15 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   const router = useRouter()
-  const { removeUser } = useStore()
+  const { setUser } = useStore()
   const { data: session } = useSession()
 
   useEffect(() => {
     if (!session) {
-      removeUser()
+      setUser(null)
       router.push("/")
     }
-  }, [removeUser, router, session])
+  }, [router, session, setUser])
 
   return (
     <div>
