@@ -4,6 +4,8 @@ import { User } from "@prisma/client"
 
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
+import { GetServerSidePropsContext } from "next"
+import { getOnceUponADimeAuthSession } from "@/server/common/get-server-session"
 
 const SignIn = () => {
   const { data: session } = useSession()
@@ -45,3 +47,11 @@ const SignIn = () => {
 }
 
 export default SignIn
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  return {
+    props: {
+      session: await getOnceUponADimeAuthSession(ctx),
+    },
+  }
+}

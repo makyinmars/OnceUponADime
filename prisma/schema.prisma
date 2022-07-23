@@ -35,10 +35,6 @@ model Comment {
   updatedAt DateTime @default(now())
 }
 
-model Example {
-  id String @id @default(cuid())
-}
-
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
