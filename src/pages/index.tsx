@@ -2,8 +2,6 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
 
-import { trpc } from "@/utils/trpc"
-
 const latestBlogs = [
   {
     id: "1",
@@ -26,8 +24,6 @@ const latestBlogs = [
 ]
 
 const Home: NextPage = () => {
-  const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }])
-
   return (
     <>
       <Head>
