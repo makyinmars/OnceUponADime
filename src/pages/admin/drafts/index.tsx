@@ -10,6 +10,8 @@ const Drafts = () => {
 
   const { data, isError, isLoading } = trpc.useQuery(["blog.getDraftBlogs"])
 
+  console.log(data)
+
   useEffect(() => {
     if (!user?.isAdmin) {
       router.push("/")

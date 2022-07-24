@@ -8,10 +8,6 @@ import { trpc } from "@/utils/trpc"
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(["blog.getLatestPublishedBlogs"])
 
-  if (isLoading) {
-    return <div>Loading blogs...</div>
-  }
-
   return (
     <>
       <Head>
@@ -45,34 +41,25 @@ const Home: NextPage = () => {
           exercitationem atque, architecto dicta, explicabo ut repellendus
           asperiores labore! Ex quae eum ullam
         </p>
+        <h3 className="text-xl font-bold">Latest blogs</h3>
         <div className="grid grid-cols-2 gap-4">
+          {isLoading ? <p>Loading latest blogs...</p> : null}
           {data &&
             data.map((blog) => (
               <div
                 key={blog.id}
-                className="p-4 rounded shadow-sm bg-slate-100 shadow-slate-700"
+                className="p-4 bg-transparent border-2 rounded shadow-sm border-slate-700 shadow-slate-700"
               >
                 <h2 className="pb-4 text-lg font-bold text-center">
                   {blog.title}
                 </h2>
-                <img
+                <Image
                   src={blog.imageUrl}
                   alt={blog.title}
-                  className="w-24 h-24 rounded-lg"
+                  width={250}
+                  height={250}
+                  className="rounded-lg"
                 />
-                <div className="p-2 rounded shadow-inner shadow-slate-700">
-                  <p>
-                    <span className="font-bold">Reading Time: </span>2 min
-                  </p>
-                  <p>{blog.summary}</p>
-                </div>
-                <div className="flex justify-center pt-4">
-                  <Link href={`/blogs/${blog.id}`}>
-                    <button className="p-2 font-bold rounded shadow-md bg-slate-200 hover:bg-slate-700 hover:text-slate-200 shadow-slate-700">
-                      Read more
-                    </button>
-                  </Link>
-                </div>
               </div>
             ))}
         </div>
