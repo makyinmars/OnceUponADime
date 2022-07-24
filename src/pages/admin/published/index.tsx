@@ -1,14 +1,32 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 import { trpc } from "@/utils/trpc"
+import { useStore } from "@/utils/zustand"
+import { useEffect } from "react"
 
 const Published = () => {
-  const { data, isError, isLoading } = trpc.useQuery(["blog.getPublishedBlogs"])
+  const { user } = useStore()
+  const { data, isError, isLoading } = trpc.useQuery([
+    "blog.getAdminPublishedBlogs",
+  ])
+  const router = useRouter()
+  useEffect(() => {
+    if (!user?.isAdmin) {
+      router.push("/")
+    }
+  }, [router, user?.isAdmin])
+
+  if (isError) {
+    return <div>Error!</div>
+  }
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div>
       <h2 className="text-center">Published</h2>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error!</div>}
       {data && (
         <div>
           {data.map((blog) => (

@@ -1,10 +1,10 @@
-import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import { FcHome } from "react-icons/fc"
-
-import { useStore } from "@/utils/zustand"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+
+import { useStore } from "@/utils/zustand"
+import { trpc } from "@/utils/trpc"
 
 interface AdminLayoutProps {
   children: React.ReactNode
@@ -12,15 +12,21 @@ interface AdminLayoutProps {
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   const router = useRouter()
-  const { setUser } = useStore()
-  const { data: session } = useSession()
+  const { user } = useStore()
+
+  const { data } = trpc.useQuery([
+    "user.getAdminByEmail",
+    { email: user?.email as string },
+  ])
 
   useEffect(() => {
-    if (!session) {
-      setUser(null)
+    if (!user?.isAdmin) {
       router.push("/")
     }
-  }, [router, session, setUser])
+    if (!data?.isAdmin) {
+      router.push("/")
+    }
+  }, [router, user?.isAdmin, data?.isAdmin])
 
   return (
     <div>
@@ -41,11 +47,6 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           <Link href="/admin/new-blog">
             <h2>Create New Blog</h2>
           </Link>
-          {session && (
-            <div className="flex flex-col items-center justify-center gap-2">
-              <div onClick={() => signOut()}>Sign out</div>
-            </div>
-          )}
         </div>
       </div>
       {children}

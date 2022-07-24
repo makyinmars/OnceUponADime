@@ -1,13 +1,30 @@
 import { trpc } from "@/utils/trpc"
+import { useStore } from "@/utils/zustand"
 import Link from "next/link"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 const Drafts = () => {
+  const router = useRouter()
+  const { user } = useStore()
+
   const { data, isError, isLoading } = trpc.useQuery(["blog.getDraftBlogs"])
+
+  useEffect(() => {
+    if (!user?.isAdmin) {
+      router.push("/")
+    }
+  }, [router, user?.isAdmin])
+
+  if (isError) {
+    return <div>Error!</div>
+  }
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   return (
     <div>
       <h2>Drafts</h2>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error</div>}
       {data && (
         <div>
           {data.map((blog) => (

@@ -1,3 +1,4 @@
+import { protectedRouter } from "@/server/utils/protected"
 import { Prisma } from "@prisma/client"
 import { z } from "zod"
 
@@ -16,57 +17,6 @@ const defaultBlogSelect = Prisma.validator<Prisma.BlogSelect>()({
 })
 
 export const blogRouter = createRouter()
-  .mutation("createBlog", {
-    input: z.object({
-      title: z.string(),
-      author: z.string(),
-      summary: z.string(),
-      content: z.string(),
-      imageUrl: z.string(),
-    }),
-    async resolve({ input, ctx }) {
-      return await ctx.prisma.blog.create({
-        data: input,
-      })
-    },
-  })
-  .mutation("updateBlog", {
-    input: z.object({
-      id: z.string(),
-      title: z.string(),
-      author: z.string(),
-      summary: z.string(),
-      content: z.string(),
-      imageUrl: z.string(),
-    }),
-    async resolve({ input, ctx }) {
-      return await ctx.prisma.blog.update({
-        where: { id: input.id },
-        data: input,
-      })
-    },
-  })
-  .mutation("deleteBlog", {
-    input: z.object({
-      id: z.string(),
-    }),
-    async resolve({ input, ctx }) {
-      return await ctx.prisma.blog.delete({
-        where: { id: input.id },
-      })
-    },
-  })
-  .query("getBlog", {
-    input: z.object({
-      id: z.string(),
-    }),
-    async resolve({ input, ctx }) {
-      return await ctx.prisma.blog.findFirstOrThrow({
-        where: { id: input.id },
-        select: defaultBlogSelect,
-      })
-    },
-  })
   .query("getPublishedBlog", {
     input: z.object({
       id: z.string(),
@@ -74,39 +24,6 @@ export const blogRouter = createRouter()
     async resolve({ input, ctx }) {
       return await ctx.prisma.blog.findFirstOrThrow({
         where: { id: input.id, published: true },
-        select: defaultBlogSelect,
-      })
-    },
-  })
-  .query("getDraftBlog", {
-    input: z.object({
-      id: z.string(),
-    }),
-    async resolve({ input, ctx }) {
-      return await ctx.prisma.blog.findFirstOrThrow({
-        where: { id: input.id, draft: true },
-        select: defaultBlogSelect,
-      })
-    },
-  })
-  .query("getBlogs", {
-    async resolve({ ctx }) {
-      return await ctx.prisma.blog.findMany({
-        select: defaultBlogSelect,
-      })
-    },
-  })
-  .query("getDraftBlogs", {
-    async resolve({ ctx }) {
-      return await ctx.prisma.blog.findMany({
-        where: {
-          draft: {
-            equals: true,
-          },
-        },
-        orderBy: {
-          updatedAt: "desc",
-        },
         select: defaultBlogSelect,
       })
     },
@@ -126,3 +43,114 @@ export const blogRouter = createRouter()
       })
     },
   })
+  .query("getLatestPublishedBlogs", {
+    async resolve({ ctx }) {
+      return await ctx.prisma.blog.findMany({
+        where: {
+          published: {
+            equals: true,
+          },
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        take: 2,
+        select: defaultBlogSelect,
+      })
+    },
+  })
+  .merge(
+    protectedRouter
+      .query("getAdminPublishedBlogs", {
+        async resolve({ ctx }) {
+          return await ctx.prisma.blog.findMany({
+            where: {
+              published: {
+                equals: true,
+              },
+            },
+            orderBy: {
+              updatedAt: "desc",
+            },
+            select: defaultBlogSelect,
+          })
+        },
+      })
+      .query("getAdminPublishedBlog", {
+        input: z.object({
+          id: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+          return await ctx.prisma.blog.findFirstOrThrow({
+            where: { id: input.id, published: true },
+            select: defaultBlogSelect,
+          })
+        },
+      })
+      .mutation("createBlog", {
+        input: z.object({
+          title: z.string(),
+          author: z.string(),
+          summary: z.string(),
+          content: z.string(),
+          imageUrl: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+          return await ctx.prisma.blog.create({
+            data: input,
+          })
+        },
+      })
+      .mutation("updateBlog", {
+        input: z.object({
+          id: z.string(),
+          title: z.string(),
+          author: z.string(),
+          summary: z.string(),
+          content: z.string(),
+          imageUrl: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+          return await ctx.prisma.blog.update({
+            where: { id: input.id },
+            data: input,
+          })
+        },
+      })
+      .mutation("deleteBlog", {
+        input: z.object({
+          id: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+          return await ctx.prisma.blog.delete({
+            where: { id: input.id },
+          })
+        },
+      })
+      .query("getDraftBlog", {
+        input: z.object({
+          id: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+          return await ctx.prisma.blog.findFirstOrThrow({
+            where: { id: input.id, draft: true },
+            select: defaultBlogSelect,
+          })
+        },
+      })
+      .query("getDraftBlogs", {
+        async resolve({ ctx }) {
+          return await ctx.prisma.blog.findMany({
+            where: {
+              draft: {
+                equals: true,
+              },
+            },
+            orderBy: {
+              updatedAt: "desc",
+            },
+            select: defaultBlogSelect,
+          })
+        },
+      })
+  )
