@@ -1,13 +1,15 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { Editor } from "@tinymce/tinymce-react"
 import { Blog } from "@prisma/client"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useRouter } from "next/router"
 
 import { trpc } from "@/utils/trpc"
+import { useStore } from "@/utils/zustand"
 
 const NewBlog = () => {
   const router = useRouter()
+  const { user } = useStore()
   const editorRef = useRef<any>(null)
 
   const { register, handleSubmit } = useForm<Blog>()
@@ -23,6 +25,13 @@ const NewBlog = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (!user?.isAdmin) {
+      router.push("/")
+    }
+  }, [router, user?.isAdmin])
+
   return (
     <div>
       <h2 className="text-center">New Blog</h2>
