@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
-import { useEffect } from "react"
+import Loading from "@/components/common/loading"
 
 const Published = () => {
   const { user } = useStore()
@@ -20,13 +21,11 @@ const Published = () => {
   if (isError) {
     return <div>Error!</div>
   }
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
 
   return (
     <div>
-      <h2 className="text-center">Published</h2>
+      <h2 className="title">Published</h2>
+      {isLoading && <Loading />}
       {data && (
         <div>
           {data.map((blog) => (

@@ -1,3 +1,4 @@
+import Loading from "@/components/common/loading"
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
 import Link from "next/link"
@@ -10,8 +11,6 @@ const Drafts = () => {
 
   const { data, isError, isLoading } = trpc.useQuery(["blog.getDraftBlogs"])
 
-  console.log(data)
-
   useEffect(() => {
     if (!user?.isAdmin) {
       router.push("/")
@@ -21,12 +20,10 @@ const Drafts = () => {
   if (isError) {
     return <div>Error!</div>
   }
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
   return (
     <div>
-      <h2>Drafts</h2>
+      <h2 className="title">Drafts</h2>
+      {isLoading && <Loading />}
       {data && (
         <div>
           {data.map((blog) => (

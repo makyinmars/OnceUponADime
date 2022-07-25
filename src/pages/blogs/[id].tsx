@@ -2,6 +2,7 @@ import { useRouter } from "next/router"
 
 import { trpc } from "@/utils/trpc"
 import HtmlParser from "@/components/common/html-parser"
+import Loading from "@/components/common/loading"
 
 const Blog = () => {
   const router = useRouter()
@@ -12,9 +13,8 @@ const Blog = () => {
   ])
   return (
     <div>
-      <h2>Blog</h2>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error</div>}
+      <h2 className="title">Blog</h2>
+      {isLoading && <Loading />}
       {data && (
         <div>
           <h3>{data.title}</h3>

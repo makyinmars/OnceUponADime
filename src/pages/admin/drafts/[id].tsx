@@ -1,8 +1,9 @@
 import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
-import { useEffect } from "react"
+import Loading from "@/components/common/loading"
 
 const DraftBlog = () => {
   const router = useRouter()
@@ -24,15 +25,10 @@ const DraftBlog = () => {
   if (isError) {
     return <div>Error!</div>
   }
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   return (
     <div>
-      <h2 className="text-center">Draft Blog</h2>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error</div>}
+      <h2 className="title">Draft Blog</h2>
+      {isLoading && <Loading />}
       {data && (
         <div>
           <h3>{data.title}</h3>

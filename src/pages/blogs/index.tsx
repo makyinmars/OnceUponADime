@@ -1,14 +1,14 @@
 import { trpc } from "@/utils/trpc"
 import HtmlParser from "@/components/common/html-parser"
 import Link from "next/link"
+import Loading from "@/components/common/loading"
 
 const Blogs = () => {
   const { data, isError, isLoading } = trpc.useQuery(["blog.getPublishedBlogs"])
   return (
     <div>
-      <h2 className="text-center">Blogs</h2>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div>Error</div>}
+      <h2 className="title">Blogs</h2>
+      {isLoading && <Loading />}
       {data &&
         data.map((blog) => (
           <div key={blog.id}>

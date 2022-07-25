@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { trpc } from "@/utils/trpc"
+import Loading from "@/components/common/loading"
 
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(["blog.getLatestPublishedBlogs"])
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
             height={250}
           />
         </div>
-        <h1 className="text-xl font-bold">HOME MESSAGE</h1>
+        <h1 className="title">home message</h1>
         <p className="text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Et culpa
           architecto cupiditate modi! Commodi dolorem minima, nulla
@@ -41,30 +42,27 @@ const Home: NextPage = () => {
           exercitationem atque, architecto dicta, explicabo ut repellendus
           asperiores labore! Ex quae eum ullam
         </p>
-        <h3 className="text-xl font-bold">Latest blogs</h3>
-        <div className="grid grid-cols-2 gap-4">
-          {isLoading ? <p>Loading latest blogs...</p> : null}
+        <h2 className="title">latest blogs</h2>
+        {isLoading && <Loading />}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {data &&
             data.map((blog) => (
-              <div
-                key={blog.id}
-                className="p-4 bg-transparent border-2 rounded shadow-sm border-slate-700 shadow-slate-700"
-              >
-                <h2 className="pb-4 text-lg font-bold text-center">
-                  {blog.title}
-                </h2>
-                <Image
-                  src={blog.imageUrl}
-                  alt={blog.title}
-                  width={250}
-                  height={250}
-                  className="rounded-lg"
-                />
-              </div>
+              <Link href={`/blogs/${blog.id}`} key={blog.id}>
+                <div className="p-4 bg-transparent border-2 rounded shadow-sm cursor-pointer border-slate-700 shadow-slate-700">
+                  <Image
+                    src={blog.imageUrl}
+                    alt={blog.title}
+                    width={400}
+                    height={250}
+                    className="rounded-lg"
+                  />
+                  <h3 className="text-center subtitle">{blog.title}</h3>
+                </div>
+              </Link>
             ))}
         </div>
 
-        <h2 className="text-xl font-bold">OTHER INFO MESSAGE</h2>
+        <h2 className="title">other info message</h2>
         <p className="text-center">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Et culpa
           architecto cupiditate modi! Commodi dolorem minima, nulla
