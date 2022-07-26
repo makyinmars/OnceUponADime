@@ -14,6 +14,8 @@ const defaultBlogSelect = Prisma.validator<Prisma.BlogSelect>()({
   content: true,
   imageUrl: true,
   Comments: true,
+  createdAt: true,
+  updatedAt: true,
 })
 
 export const blogRouter = createRouter()
