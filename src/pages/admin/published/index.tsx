@@ -60,7 +60,12 @@ const Published = () => {
     "blog.getAdminPublishedBlogs",
   ])
 
-  console.log(data)
+  // const table = useReactTable<Blog>({
+  //   blogData,
+  //   columns,
+  //   getCoreRowModel: getCoreRowModel(),
+  // })
+
   const router = useRouter()
   useEffect(() => {
     if (!user?.isAdmin) {
