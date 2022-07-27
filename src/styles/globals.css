@@ -13,7 +13,7 @@
 
 @layer components {
   .title {
-    @apply text-xl font-bold sm:text-2xl md:text-3xl lg:text-4xl;
+    @apply text-xl font-bold text-center sm:text-2xl md:text-3xl lg:text-4xl;
   }
 
   .subtitle {
