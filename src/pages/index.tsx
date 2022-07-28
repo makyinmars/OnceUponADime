@@ -1,12 +1,11 @@
 import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
-import Link from "next/link"
 import { motion } from "framer-motion"
 
 import { trpc } from "@/utils/trpc"
-import { formatDateDay } from "@/utils/date"
 import Loading from "@/components/common/loading"
+import Blogs from "@/components/common/blogs"
 
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(["blog.getLatestPublishedBlogs"])
@@ -19,16 +18,32 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-col items-center justify-center gap-4">
-        <div>
-          <Image
-            src="/assets/once-upon-a-dime.png"
-            alt="Once Upon A Dime"
-            width={250}
-            height={250}
-          />
-        </div>
+        <motion.div
+          className="box"
+          animate={{
+            scale: [1, 1.2, 1.1, 0.9, 0.9],
+            rotate: [0, 0, 180, 180, 0],
+            borderRadius: ["0%", "25%", "50%", "75%", "0%"],
+          }}
+          transition={{
+            duration: 3,
+            ease: "easeInOut",
+            times: [0, 0.2, 0.5, 0.8, 1],
+            repeat: Infinity,
+            repeatDelay: 1,
+          }}
+        >
+          <div>
+            <Image
+              src="/assets/once-upon-a-dime.png"
+              alt="Once Upon A Dime"
+              width={250}
+              height={250}
+            />
+          </div>
+        </motion.div>
         <h1 className="title">home message</h1>
-        <p className="text-center">
+        <p className="text-center lg:max-w-7xl">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Et culpa
           architecto cupiditate modi! Commodi dolorem minima, nulla
           exercitationem atque, architecto dicta, explicabo ut repellendus
@@ -46,34 +61,12 @@ const Home: NextPage = () => {
         </p>
         <h2 className="title">latest blogs</h2>
         {isLoading && <Loading />}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {data &&
-            data.map((blog) => (
-              <Link href={`/blogs/${blog.id}`} key={blog.id}>
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <div className="p-4 bg-transparent border rounded cursor-pointer border-slate-700">
-                    <Image
-                      src={blog.imageUrl}
-                      alt={blog.title}
-                      width={400}
-                      height={250}
-                      className="rounded-lg"
-                    />
-                    <h3 className="text-center subtitle">{blog.title}</h3>
-                    <p className="text-center">
-                      {formatDateDay(blog.updatedAt)}
-                    </p>
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
+        <div className="flex flex-col gap-4">
+          {data && <Blogs blogs={data} />}
         </div>
 
         <h2 className="title">other info message</h2>
-        <p className="text-center">
+        <p className="text-center lg:max-w-7xl">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Et culpa
           architecto cupiditate modi! Commodi dolorem minima, nulla
           exercitationem atque, architecto dicta, explicabo ut repellendus

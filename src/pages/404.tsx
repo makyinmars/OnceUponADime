@@ -2,7 +2,7 @@ import Link from "next/link"
 
 const NotFound = () => {
   return (
-    <div className="my-4 text-center">
+    <div className="container mx-auto p-4 text-center">
       <h2>Page Not Found - 404</h2>
       <Link href="/">
         <div className="flex justify-center my-4">
