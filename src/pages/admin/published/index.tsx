@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect, useMemo, useReducer, useState } from "react"
-import { Blog } from "@prisma/client"
+import { useEffect } from "react"
 
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
@@ -27,7 +26,7 @@ const Published = () => {
   }
 
   return (
-    <div>
+    <div className="container mx-auto p-2">
       <h2 className="title">Published</h2>
       {isLoading && <Loading />}
       {data && (

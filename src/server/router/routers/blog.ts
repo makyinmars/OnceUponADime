@@ -56,7 +56,7 @@ export const blogRouter = createRouter()
         orderBy: {
           updatedAt: "desc",
         },
-        take: 2,
+        take: 3,
         select: defaultBlogSelect,
       })
     },

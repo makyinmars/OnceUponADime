@@ -16,6 +16,7 @@ const Blog = () => {
     "comment.getCommentsByBlogId",
     { blogId: id },
   ])
+
   return (
     <div className="container mx-auto p-4">
       {isLoading && <Loading />}
@@ -30,6 +31,22 @@ const Blog = () => {
           <div className="border border-slate-700 my-2" />
           <HtmlParser content={data.content} />
           <CreateComment blogId={data.id} />
+          {isLoadingComments && <Loading />}
+          <div className="p-2 flex flex-col gap-2 border rounded border-slate-700">
+            {blogComments && blogComments.length >= 1 ? (
+              blogComments.map((comment) => (
+                <div key={comment.id}>
+                  <p className="font-bold">
+                    {comment.firstName} {comment.lastName} -
+                    {formatDateDay(comment.updatedAt)}
+                  </p>
+                  <p>{comment.content}</p>
+                </div>
+              ))
+            ) : (
+              <p>Nothing to see here folks</p>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -60,21 +77,18 @@ const CreateComment = ({ blogId }: CreateCommnetProps) => {
 
   const onSubmit: SubmitHandler<Comment> = async (data) => {
     try {
-      const newComment = await createComment.mutateAsync(data)
-      if (newComment) {
-        console.log(newComment)
-      }
+      await createComment.mutateAsync(data)
     } catch {}
   }
 
   useEffect(() => {
-    if(isSubmitSuccessful){
+    if (isSubmitSuccessful) {
       reset()
     }
   }, [isSubmitSuccessful, reset])
 
   return (
-    <div className="mt-2">
+    <div className="my-2">
       <div className="border rounded border-slate-700 p-2">
         <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
           <label htmlFor="firstName">First name</label>

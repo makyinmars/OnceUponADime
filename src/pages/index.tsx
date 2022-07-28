@@ -2,15 +2,17 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
+import { motion } from "framer-motion"
 
 import { trpc } from "@/utils/trpc"
+import { formatDateDay } from "@/utils/date"
 import Loading from "@/components/common/loading"
 
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(["blog.getLatestPublishedBlogs"])
 
   return (
-    <>
+    <div className="container mx-auto">
       <Head>
         <title>Once Upon A Dime</title>
         <meta name="description" content="Once Upon A Dime Economics Blog" />
@@ -48,16 +50,24 @@ const Home: NextPage = () => {
           {data &&
             data.map((blog) => (
               <Link href={`/blogs/${blog.id}`} key={blog.id}>
-                <div className="p-4 bg-transparent border-2 rounded shadow-sm cursor-pointer border-slate-700 shadow-slate-700">
-                  <Image
-                    src={blog.imageUrl}
-                    alt={blog.title}
-                    width={400}
-                    height={250}
-                    className="rounded-lg"
-                  />
-                  <h3 className="text-center subtitle">{blog.title}</h3>
-                </div>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <div className="p-4 bg-transparent border rounded cursor-pointer border-slate-700">
+                    <Image
+                      src={blog.imageUrl}
+                      alt={blog.title}
+                      width={400}
+                      height={250}
+                      className="rounded-lg"
+                    />
+                    <h3 className="text-center subtitle">{blog.title}</h3>
+                    <p className="text-center">
+                      {formatDateDay(blog.updatedAt)}
+                    </p>
+                  </div>
+                </motion.div>
               </Link>
             ))}
         </div>
@@ -80,7 +90,7 @@ const Home: NextPage = () => {
           asperiores labore! Ex quae eum ullam
         </p>
       </div>
-    </>
+    </div>
   )
 }
 
