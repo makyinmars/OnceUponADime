@@ -28,7 +28,9 @@ const Blogs = ({ blogs }: BlogsProps) => {
                 <p className="p-1 border rounded border-slate-700">
                   {blog.summary}
                 </p>
-                <p className="text-center">{formatDateDay(blog.updatedAt)}</p>
+                <p className="font-bold text-center lg:text-lg">
+                  {formatDateDay(blog.updatedAt)}
+                </p>
               </div>
             </div>
           </motion.div>
