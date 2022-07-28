@@ -19,4 +19,5 @@
   .subtitle {
     @apply font-bold sm:text-lg md:text-xl lg:text-2xl;
   }
+
 }
