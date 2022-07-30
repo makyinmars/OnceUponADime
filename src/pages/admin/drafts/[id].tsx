@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
 import Loading from "@/components/common/loading"
+import BlogCommon from "@/components/common/blog"
 
 const DraftBlog = () => {
   const router = useRouter()
@@ -14,6 +15,10 @@ const DraftBlog = () => {
   const { data, isError, isLoading } = trpc.useQuery([
     "blog.getDraftBlog",
     { id },
+  ])
+  const { data: blogComments } = trpc.useQuery([
+    "comment.getCommentsByBlogId",
+    { blogId: id },
   ])
 
   useEffect(() => {
@@ -27,17 +32,11 @@ const DraftBlog = () => {
   }
   return (
     <div>
-      <h2 className="title">Draft Blog</h2>
+    <div className="container mx-auto p-4">
+      <h2 className="title mb-4">Blog Drafted</h2>
       {isLoading && <Loading />}
-      {data && (
-        <div>
-          <h3>{data.title}</h3>
-          <h3>{data.author}</h3>
-          <p>{data.summary}</p>
-          <img src={data.imageUrl} alt={data.title} />
-          <p>{data.content}</p>
-        </div>
-      )}
+      <BlogCommon blog={data} blogComments={blogComments} />
+    </div>
     </div>
   )
 }

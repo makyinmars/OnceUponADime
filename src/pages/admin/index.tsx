@@ -4,7 +4,6 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 import { useStore } from "@/utils/zustand"
-import { trpc } from "@/utils/trpc"
 
 interface AdminLayoutProps {
   children: React.ReactNode
@@ -14,19 +13,11 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const router = useRouter()
   const { user } = useStore()
 
-  const { data } = trpc.useQuery([
-    "user.getAdminByEmail",
-    { email: user?.email as string },
-  ])
-
   useEffect(() => {
     if (!user?.isAdmin) {
       router.push("/")
     }
-    if (!data?.isAdmin) {
-      router.push("/")
-    }
-  }, [router, user?.isAdmin, data?.isAdmin])
+  }, [router, user?.isAdmin])
 
   return (
     <div>

@@ -2,9 +2,9 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 import { trpc } from "@/utils/trpc"
-import HtmlParser from "@/components/common/html-parser"
 import { useStore } from "@/utils/zustand"
 import Loading from "@/components/common/loading"
+import BlogCommon from "@/components/common/blog"
 
 const PublishedBlog = () => {
   const router = useRouter()
@@ -14,6 +14,10 @@ const PublishedBlog = () => {
   const { data, isError, isLoading } = trpc.useQuery([
     "blog.getAdminPublishedBlog",
     { id },
+  ])
+  const { data: blogComments } = trpc.useQuery([
+    "comment.getCommentsByBlogId",
+    { blogId: id },
   ])
 
   useEffect(() => {
@@ -27,18 +31,10 @@ const PublishedBlog = () => {
   }
 
   return (
-    <div>
-      <h2 className="title">Blog Published</h2>
+    <div className="container mx-auto p-4">
+      <h2 className="title mb-4">Blog Published</h2>
       {isLoading && <Loading />}
-      {data && (
-        <div>
-          <h3>{data.title}</h3>
-          <h3>{data.author}</h3>
-          <p>{data.summary}</p>
-          <img src={data.imageUrl} alt={data.title} />
-          <HtmlParser content={data.content} />
-        </div>
-      )}
+      <BlogCommon blog={data} blogComments={blogComments} />
     </div>
   )
 }

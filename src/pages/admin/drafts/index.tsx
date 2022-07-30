@@ -23,7 +23,7 @@ const Drafts = () => {
   }
   return (
     <div className="container mx-auto p-2">
-      <h2 className="title">Drafts</h2>
+      <h2 className="title mb-4">Drafted Blogs</h2>
       {isLoading && <Loading />}
       {data && <Table blogs={data} />}
     </div>
