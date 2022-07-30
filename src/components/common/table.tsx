@@ -31,16 +31,21 @@ const columns = [
   }),
   columnHelper.accessor("id", {
     header: "View blog",
-    cell: (info) => (
-      <Link href={`/blogs/${info.getValue()}`}>
-        <p className="cursor-pointer">View Blog</p>
+    cell: (props) => (
+      <Link
+        href={`/admin/${
+          props.row.original.published
+            ? `published/${props.row.original.id}`
+            : `drafts/${props.row.original.id}`
+        }`}
+      >
+        <p className="cursor-pointer">{props.row.original.published ? "View published " : "View draft"}</p>
       </Link>
     ),
   }),
 ]
 const Table = ({ blogs }: TableProps) => {
   const [data, setData] = React.useState(() => [...blogs])
-  const rerender = React.useReducer(() => ({}), {})[1]
 
   const table = useReactTable({
     data,
