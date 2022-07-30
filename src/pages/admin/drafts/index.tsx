@@ -1,9 +1,10 @@
-import Loading from "@/components/common/loading"
-import { trpc } from "@/utils/trpc"
-import { useStore } from "@/utils/zustand"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
+
+import Loading from "@/components/common/loading"
+import Table from "@/components/common/table"
+import { trpc } from "@/utils/trpc"
+import { useStore } from "@/utils/zustand"
 
 const Drafts = () => {
   const router = useRouter()
@@ -21,25 +22,10 @@ const Drafts = () => {
     return <div>Error!</div>
   }
   return (
-    <div>
+    <div className="container mx-auto p-2">
       <h2 className="title">Drafts</h2>
       {isLoading && <Loading />}
-      {data && (
-        <div>
-          {data.map((blog) => (
-            <div key={blog.id}>
-              <h3>{blog.title}</h3>
-              <h3>{blog.author}</h3>
-              <p>{blog.summary}</p>
-              <img src={blog.imageUrl} alt={blog.title} />
-              <p>{blog.content}</p>
-              <Link href={`/admin/drafts/${blog.id}`}>
-                <p>View Draft</p>
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
+      {data && <Table blogs={data} />}
     </div>
   )
 }

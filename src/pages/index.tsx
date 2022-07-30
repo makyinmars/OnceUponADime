@@ -18,21 +18,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-col items-center justify-center gap-4">
-        <motion.div
-          className="box"
-          animate={{
-            scale: [1, 1.2, 1.1, 0.9, 0.9],
-            rotate: [0, 0, 180, 180, 0],
-            borderRadius: ["0%", "25%", "50%", "75%", "0%"],
-          }}
-          transition={{
-            duration: 3,
-            ease: "easeInOut",
-            times: [0, 0.2, 0.5, 0.8, 1],
-            repeat: Infinity,
-            repeatDelay: 1,
-          }}
-        >
           <div>
             <Image
               src="/assets/once-upon-a-dime.png"
@@ -41,7 +26,6 @@ const Home: NextPage = () => {
               height={250}
             />
           </div>
-        </motion.div>
         <h1 className="title">home message</h1>
         <p className="text-center lg:max-w-7xl">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Et culpa
