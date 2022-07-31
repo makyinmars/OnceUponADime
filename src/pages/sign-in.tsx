@@ -7,6 +7,7 @@ import { User } from "@prisma/client"
 import { getOnceUponADimeAuthSession } from "@/server/common/get-server-session"
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
+import Meta from "@/components/common/meta"
 
 const SignIn = () => {
   const { data: session } = useSession()
@@ -36,6 +37,7 @@ const SignIn = () => {
     if (data?.isAdmin) {
       return (
         <div className="flex flex-col items-center justify-center gap-4">
+          <Meta title="Sign In - Sign Out" description="Sign in and sign out" keywords="Sign in, login, logout, Sign out" />
           <p className="text-lg">Signed in as {data.email}</p>
           <p></p>
           <button

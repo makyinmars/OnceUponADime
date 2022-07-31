@@ -1,10 +1,11 @@
 import { useForm, SubmitHandler } from "react-hook-form"
+import { useEffect } from "react"
 import { Comment, Blog } from "@prisma/client"
 
 import { trpc } from "@/utils/trpc"
 import HtmlParser from "@/components/common/html-parser"
+import Meta from "./meta"
 import { formatDateDay } from "@/utils/date"
-import { useEffect } from "react"
 
 interface BlogProps {
   blog: Blog | undefined
@@ -16,6 +17,7 @@ const Blog = ({ blog, blogComments }: BlogProps) => {
     <>
       {blog && (
         <div className="flex flex-col gap-2">
+          <Meta title={blog.title} description={`${blog.summary}`} keywords={`${blog.title}, economics blog`} />
           <h3 className="text-lg font-bold md:text-xl lg:text-2xl text-center">
             {blog.title}
           </h3>

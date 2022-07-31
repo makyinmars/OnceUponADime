@@ -12,7 +12,6 @@ const Header = () => {
       <Link href="/blogs">
         <div className="subtitle">blogs</div>
       </Link>
-      <div className="subtitle">search</div>
     </header>
   )
 }

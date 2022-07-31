@@ -1,30 +1,30 @@
 import type { NextPage } from "next"
-import Head from "next/head"
 import Image from "next/image"
 
 import { trpc } from "@/utils/trpc"
 import Loading from "@/components/common/loading"
 import Blogs from "@/components/common/blogs"
+import Meta from "@/components/common/meta"
 
 const Home: NextPage = () => {
   const { data, isLoading } = trpc.useQuery(["blog.getLatestPublishedBlogs"])
 
   return (
     <div className="container mx-auto">
-      <Head>
-        <title>Once Upon A Dime</title>
-        <meta name="description" content="Once Upon A Dime Economics Blog" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <Meta
+        title="One Upon A Dime"
+        description="Once Upon A Dime Economics Blog"
+        keywords="Economics, blog, girl blog, economics blog"
+      />
       <div className="flex flex-col items-center justify-center gap-4">
-          <div>
-            <Image
-              src="/assets/once-upon-a-dime.png"
-              alt="Once Upon A Dime"
-              width={250}
-              height={250}
-            />
-          </div>
+        <div>
+          <Image
+            src="/assets/once-upon-a-dime.png"
+            alt="Once Upon A Dime"
+            width={250}
+            height={250}
+          />
+        </div>
         <h1 className="title">home message</h1>
         <p className="text-center lg:max-w-7xl">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Et culpa
