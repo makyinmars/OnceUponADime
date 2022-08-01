@@ -1,12 +1,17 @@
-import type { NextPage } from "next"
+import type { InferGetStaticPropsType } from "next"
+import { createSSGHelpers } from "@trpc/react/ssg"
 import Image from "next/image"
+import superjson from "superjson"
 
 import { trpc } from "@/utils/trpc"
+import { appRouter } from "@/server/router/"
+import { createContext } from "@/server/router/context"
+
 import Loading from "@/components/common/loading"
 import Blogs from "@/components/common/blogs"
 import Meta from "@/components/common/meta"
 
-const Home: NextPage = () => {
+const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data, isLoading } = trpc.useQuery(["blog.getLatestPublishedBlogs"])
 
   return (
@@ -71,3 +76,22 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getStaticProps() {
+  const { req, res, session, prisma } = await createContext()
+
+  const ssg = createSSGHelpers({
+    router: appRouter,
+    ctx: { req, res, session, prisma },
+    transformer: superjson,
+  })
+
+  await ssg.fetchQuery("blog.getLatestPublishedBlogs")
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  }
+}
