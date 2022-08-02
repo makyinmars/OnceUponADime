@@ -86,24 +86,26 @@ const CreateComment = ({ blogId }: CreateCommnetProps) => {
     <div className="my-2">
       <div className="border rounded border-slate-700 p-2">
         <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="firstName">First name</label>
           <input
             type="text"
             id="firstName"
+            placeholder="First name"
             {...register("firstName", { required: "First name is required" })}
+            className="input"
           />
-          <label htmlFor="lastName">Last name</label>
           <input
             type="text"
             id="lastName"
+            placeholder="Last name"
             {...register("lastName", { required: "Last name is required" })}
+            className="input"
           />
-          <label htmlFor="lastName">Content</label>
           <textarea
             cols={4}
             rows={4}
-            id="lastName"
-            {...register("content", { required: "Last name is required" })}
+            placeholder="Content"
+            {...register("content", { required: "Content is required" })}
+            className="input"
           />
 
           <input

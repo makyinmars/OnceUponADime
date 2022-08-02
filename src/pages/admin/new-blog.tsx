@@ -36,7 +36,7 @@ const NewBlog = () => {
   return (
     <div>
       <Meta title="New Blog" description="" keywords="" />
-      <h2 className="text-center">New Blog</h2>
+      <h2 className="text-center md:text-2xl pb-2">Create New Blog</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 gap-2 justify-items-center"
@@ -46,24 +46,28 @@ const NewBlog = () => {
           type="text"
           id="title"
           {...register("title", { required: "The title is required" })}
+          className="input md:w-2/5"
         />
         <label htmlFor="author">Author</label>
         <input
           type="text"
           id="author"
           {...register("author", { required: "The author is required" })}
+          className="input md:w-2/5"
         />
         <label htmlFor="summary">Summary</label>
         <textarea
           id="summary"
           rows={3}
           {...register("summary", { required: "The author is required" })}
+          className="input md:w-2/5"
         />
         <label htmlFor="image">Image Url</label>
         <input
           type="text"
           id="image"
           {...register("imageUrl", { required: "The image url is required" })}
+          className="input md:w-2/5"
         />
         <div>
           <Editor
@@ -104,7 +108,7 @@ const NewBlog = () => {
             }}
           />
           <div className="flex justify-center mt-2">
-            <button type="submit" className="p-2 rounded bg-slate-200">
+            <button type="submit" className="button">
               Create Blog
             </button>
           </div>
