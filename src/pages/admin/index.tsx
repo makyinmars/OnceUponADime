@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 import { useStore } from "@/utils/zustand"
+import Meta from "@/components/common/meta"
 
 interface AdminLayoutProps {
   children: React.ReactNode
@@ -21,6 +22,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   return (
     <div>
+      <Meta title="Admin" description="" keywords="" />
       <div>
         <Link href="/admin">
           <a className="flex items-center justify-center gap-4">

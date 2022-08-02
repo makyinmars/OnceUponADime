@@ -67,8 +67,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     },
   })
 
-  console.log(blogs)
-
   return {
     paths: blogs.map((blog) => ({ params: { id: blog.id } })),
     fallback: false,

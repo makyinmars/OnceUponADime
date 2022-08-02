@@ -5,6 +5,7 @@ import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
 import Loading from "@/components/common/loading"
 import Table from "@/components/common/table"
+import Meta from "@/components/common/meta"
 
 const Published = () => {
   const { user } = useStore()
@@ -25,6 +26,7 @@ const Published = () => {
 
   return (
     <div className="container mx-auto p-2">
+      <Meta title="Published blogs" description="" keywords="" />
       <h2 className="title mb-4">Published Blogs</h2>
       {isLoading && <Loading />}
       {data && <Table blogs={data} />}

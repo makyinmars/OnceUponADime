@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
+import Meta from "@/components/common/meta"
 
 const NewBlog = () => {
   const router = useRouter()
@@ -34,6 +35,7 @@ const NewBlog = () => {
 
   return (
     <div>
+      <Meta title="New Blog" description="" keywords="" />
       <h2 className="text-center">New Blog</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}

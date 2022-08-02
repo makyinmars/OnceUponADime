@@ -39,7 +39,9 @@ const columns = [
             : `drafts/${props.row.original.id}`
         }`}
       >
-        <p className="cursor-pointer">{props.row.original.published ? "View published " : "View draft"}</p>
+        <p className="cursor-pointer">
+          {props.row.original.published ? "View published " : "View draft"}
+        </p>
       </Link>
     ),
   }),

@@ -5,6 +5,7 @@ import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
 import Loading from "@/components/common/loading"
 import BlogCommon from "@/components/common/blog"
+import Meta from "@/components/common/meta"
 
 const PublishedBlog = () => {
   const router = useRouter()
@@ -32,6 +33,7 @@ const PublishedBlog = () => {
 
   return (
     <div className="container mx-auto p-4">
+      <Meta title="Published Blog" description="" keywords="" />
       <h2 className="title mb-4">Blog Published</h2>
       {isLoading && <Loading />}
       <BlogCommon blog={data} blogComments={blogComments} />

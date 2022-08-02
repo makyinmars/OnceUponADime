@@ -5,6 +5,7 @@ import Loading from "@/components/common/loading"
 import Table from "@/components/common/table"
 import { trpc } from "@/utils/trpc"
 import { useStore } from "@/utils/zustand"
+import Meta from "@/components/common/meta"
 
 const Drafts = () => {
   const router = useRouter()
@@ -23,6 +24,7 @@ const Drafts = () => {
   }
   return (
     <div className="container mx-auto p-2">
+      <Meta title="Drafts" description="" keywords="" />
       <h2 className="title mb-4">Drafted Blogs</h2>
       {isLoading && <Loading />}
       {data && <Table blogs={data} />}
