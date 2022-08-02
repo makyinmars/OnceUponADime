@@ -7,6 +7,11 @@ import { trpc } from "@/utils/trpc"
 
 interface BlogModalProps {
   id: string
+  title: string
+  author: string
+  summary: string
+  content: string
+  imageUrl: string
   draft: boolean
   published: boolean
 }
@@ -19,31 +24,23 @@ const BlogModal = ({ id, draft, published }: BlogModalProps) => {
     formState: { isSubmitSuccessful },
   } = useForm<Blog>()
 
-  const { data, isError, isLoading } = trpc.useQuery([
-    "blog.getAdminPublishedBlog",
-    { id },
-  ])
-
-  console.log(data)
-
-
   const [isOpen, setIsOpen] = useState(false)
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false)
   }
 
-  function openModal() {
+  const openModal = () => {
     setIsOpen(true)
   }
 
   return (
     <>
-      <div className="">
+      <div className="flex justify-center">
         <button
           type="button"
           onClick={openModal}
-          className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          className="button"
         >
           Edit Blog
         </button>

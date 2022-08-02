@@ -114,7 +114,7 @@ const CreateComment = ({ blogId }: CreateCommnetProps) => {
           />
 
           <div className="flex justify-center my-2">
-            <button type="submit" className="p-2 rounded bg-slate-200">
+            <button type="submit" className="button">
               Add comment
             </button>
           </div>

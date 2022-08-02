@@ -6,6 +6,7 @@ import { useStore } from "@/utils/zustand"
 import Loading from "@/components/common/loading"
 import BlogCommon from "@/components/common/blog"
 import Meta from "@/components/common/meta"
+import BlogModal from "@/components/common/blog-modal"
 
 const DraftBlog = () => {
   const router = useRouter()
@@ -37,6 +38,18 @@ const DraftBlog = () => {
         <Meta title="Drafted Blog" description="" keywords="" />
         <h2 className="title mb-4">Blog Drafted</h2>
         {isLoading && <Loading />}
+        {data && (
+          <BlogModal
+            id={data.id}
+            title={data.title}
+            author={data.author}
+            summary={data.summary}
+            content={data.content}
+            imageUrl={data.imageUrl}
+            draft={data.draft}
+            published={data.published}
+          />
+        )}
         <BlogCommon blog={data} blogComments={blogComments} />
       </div>
     </div>

@@ -42,14 +42,14 @@ const SignIn = () => {
           <p></p>
           <button
             onClick={() => signOut()}
-            className="p-2 mx-auto rounded bg-slate-200"
+            className="button"
           >
             Sign out
           </button>
           <Link href="/admin">
             <button
               onClick={() => setUser(data)}
-              className="p-2 mx-auto rounded bg-slate-200"
+              className="button"
             >
               Admin page
             </button>
@@ -63,7 +63,7 @@ const SignIn = () => {
           <p>You can add comments on blogs now</p>
           <button
             onClick={() => signOut()}
-            className="p-2 mx-auto rounded bg-slate-200"
+            className="button"
           >
             Sign out
           </button>
@@ -78,7 +78,7 @@ const SignIn = () => {
         <p>Not signed in</p>
         <button
           onClick={() => signIn()}
-          className="p-2 mx-auto rounded bg-slate-200"
+          className="button"
         >
           Sign in
         </button>
