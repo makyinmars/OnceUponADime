@@ -17,15 +17,23 @@ const Blog = ({ blog, blogComments }: BlogProps) => {
     <>
       {blog && (
         <div className="flex flex-col gap-2">
-          <Meta title={blog.title} description={`${blog.summary}`} keywords={`${blog.title}, economics blog`} />
+          <Meta
+            title={blog.title}
+            description={`${blog.summary}`}
+            keywords={`${blog.title}, economics blog`}
+          />
           <h3 className="text-lg font-bold md:text-xl lg:text-2xl text-center">
             {blog.title}
           </h3>
           <p className="font-bold md:text-lg">Written by {blog.author}</p>
-          <p className="md:text-lg">{formatDateDay(blog.updatedAt)}</p>
+          <p className="md:text-lg">{formatDateDay(blog.createdAt)}</p>
           <p className="p-1 border border-slate-700 rounded">{blog.summary}</p>
           <div className="border border-slate-700 my-2" />
           <HtmlParser content={blog.content} />
+
+          {blog.updatedAt !== blog.createdAt && (
+            <p className="md:text-lg text-center">Last updated {formatDateDay(blog.updatedAt)}</p>
+          )}
           <CreateComment blogId={blog.id} />
           <div className="p-2 flex flex-col gap-2 border rounded border-slate-700">
             {blogComments && blogComments.length >= 1 ? (

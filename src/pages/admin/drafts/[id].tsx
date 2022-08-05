@@ -7,6 +7,7 @@ import Loading from "@/components/common/loading"
 import BlogCommon from "@/components/common/blog"
 import Meta from "@/components/common/meta"
 import BlogModal from "@/components/common/blog-modal"
+import PublishOrDraftBlog from "@/components/common/publish-draft-blog"
 
 const DraftBlog = () => {
   const router = useRouter()
@@ -39,16 +40,23 @@ const DraftBlog = () => {
         <h2 className="title mb-4">Blog Drafted</h2>
         {isLoading && <Loading />}
         {data && (
-          <BlogModal
-            id={data.id}
-            title={data.title}
-            author={data.author}
-            summary={data.summary}
-            content={data.content}
-            imageUrl={data.imageUrl}
-            draft={data.draft}
-            published={data.published}
-          />
+          <div className="flex flex-col gap-4">
+            <PublishOrDraftBlog
+              id={data.id}
+              draft={data.draft}
+              published={data.published}
+            />
+            <BlogModal
+              id={data.id}
+              title={data.title}
+              author={data.author}
+              summary={data.summary}
+              content={data.content}
+              imageUrl={data.imageUrl}
+              draft={data.draft}
+              published={data.published}
+            />
+          </div>
         )}
         <BlogCommon blog={data} blogComments={blogComments} />
       </div>

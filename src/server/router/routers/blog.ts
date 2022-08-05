@@ -129,6 +129,28 @@ export const blogRouter = createRouter()
           })
         },
       })
+      .mutation("publisBlog", {
+        input: z.object({
+          id: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+          return await ctx.prisma.blog.update({
+            where: { id: input.id },
+            data: { published: true, draft: false },
+          })
+        },
+      })
+      .mutation("draftBlog", {
+        input: z.object({
+          id: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+          return await ctx.prisma.blog.update({
+            where: { id: input.id },
+            data: { draft: true, published: false },
+          })
+        },
+      })
       .query("getDraftBlog", {
         input: z.object({
           id: z.string(),

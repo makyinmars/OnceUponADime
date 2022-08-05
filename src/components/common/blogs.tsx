@@ -29,8 +29,13 @@ const Blogs = ({ blogs }: BlogsProps) => {
                   {blog.summary}
                 </p>
                 <p className="font-bold text-center lg:text-lg">
-                  {formatDateDay(blog.updatedAt)}
+                  {formatDateDay(blog.createdAt)}
                 </p>
+                {blog.updatedAt !== blog.createdAt && (
+                  <p className="md:text-lg text-center">
+                    Last updated {formatDateDay(blog.updatedAt)}
+                  </p>
+                )}
               </div>
             </div>
           </motion.div>
