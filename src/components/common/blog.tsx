@@ -6,6 +6,7 @@ import { trpc } from "@/utils/trpc"
 import HtmlParser from "@/components/common/html-parser"
 import Meta from "./meta"
 import { formatDateDay } from "@/utils/date"
+import { useStore } from "@/utils/zustand"
 
 interface BlogProps {
   blog: Blog | undefined
@@ -13,6 +14,8 @@ interface BlogProps {
 }
 
 const Blog = ({ blog, blogComments }: BlogProps) => {
+  const { user } = useStore()
+
   return (
     <>
       {blog && (
@@ -32,7 +35,9 @@ const Blog = ({ blog, blogComments }: BlogProps) => {
           <HtmlParser content={blog.content} />
 
           {blog.updatedAt !== blog.createdAt && (
-            <p className="md:text-lg text-center">Last updated {formatDateDay(blog.updatedAt)}</p>
+            <p className="md:text-lg text-center">
+              Last updated {formatDateDay(blog.updatedAt)}
+            </p>
           )}
           <CreateComment blogId={blog.id} />
           <div className="p-2 flex flex-col gap-2 border rounded border-slate-700">
@@ -44,6 +49,9 @@ const Blog = ({ blog, blogComments }: BlogProps) => {
                     {formatDateDay(comment.updatedAt)}
                   </p>
                   <p>{comment.content}</p>
+                  {user && user.isAdmin && (
+                    <DeleteComment commentId={comment.id} id={blog.id} />
+                  )}
                 </div>
               ))
             ) : (
@@ -130,6 +138,35 @@ const CreateComment = ({ blogId }: CreateCommnetProps) => {
           </div>
         </form>
       </div>
+    </div>
+  )
+}
+
+const DeleteComment = ({
+  commentId,
+  id,
+}: {
+  commentId: string
+  id: string
+}) => {
+  const utils = trpc.useContext()
+  const deleteComment = trpc.useMutation("comment.deleteCommentById", {
+    async onSuccess() {
+      await utils.invalidateQueries(["blog.getPublishedBlog", { id }])
+    },
+  })
+
+  const onSubmit = async () => {
+    try {
+      await deleteComment.mutateAsync({ commentId })
+    } catch {}
+  }
+
+  return (
+    <div className="flex justify-center my-2">
+      <button type="submit" className="button" onClick={onSubmit}>
+        Delete comment
+      </button>
     </div>
   )
 }

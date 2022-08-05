@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client"
 import { z } from "zod"
 
 import { createRouter } from "../context"
+import { protectedRouter } from "@/server/utils/protected"
 
 const defaultCommentSelect = Prisma.validator<Prisma.CommentSelect>()({
   id: true,
@@ -44,3 +45,17 @@ export const commentRouter = createRouter()
       return comments
     },
   })
+  .merge(
+    protectedRouter.mutation("deleteCommentById", {
+      input: z.object({
+        commentId: z.string(),
+      }),
+      async resolve({ input, ctx }) {
+        return await ctx.prisma.comment.delete({
+          where: {
+            id: input.commentId,
+          },
+        })
+      },
+    })
+  )

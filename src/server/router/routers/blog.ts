@@ -1,7 +1,7 @@
-import { protectedRouter } from "@/server/utils/protected"
 import { Prisma } from "@prisma/client"
 import { z } from "zod"
 
+import { protectedRouter } from "@/server/utils/protected"
 import { createRouter } from "../context"
 
 const defaultBlogSelect = Prisma.validator<Prisma.BlogSelect>()({
