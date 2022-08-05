@@ -12,12 +12,19 @@ const Drafts = () => {
   const { user } = useStore()
 
   const { data, isError, isLoading } = trpc.useQuery(["blog.getDraftBlogs"])
+  const utils = trpc.useContext()
 
   useEffect(() => {
     if (!user?.isAdmin) {
       router.push("/")
     }
   }, [router, user?.isAdmin])
+
+  useEffect(() => {
+      if (data) {
+        utils.invalidateQueries(["blog.getDraftBlogs"])
+    }
+  }, [data, utils])
 
   if (isError) {
     return <div>Error!</div>

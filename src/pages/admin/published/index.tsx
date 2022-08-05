@@ -14,11 +14,18 @@ const Published = () => {
   ])
 
   const router = useRouter()
+  const utils = trpc.useContext()
   useEffect(() => {
     if (!user?.isAdmin) {
       router.push("/")
     }
   }, [router, user?.isAdmin])
+
+  useEffect(() => {
+      if (data) {
+        utils.invalidateQueries(["blog.getAdminPublishedBlog"])
+    }
+  }, [data, utils])
 
   if (isError) {
     return <div>Error!</div>

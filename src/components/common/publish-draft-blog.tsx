@@ -29,6 +29,12 @@ const PublishOrDraftBlog = ({
     },
   })
 
+  const deleteBlog = trpc.useMutation(["blog.deleteBlog"], {
+    async onSuccess() {
+      router.push("/admin")
+    },
+  })
+
   const onPublishOrDraft = async () => {
     try {
       if (draft) {
@@ -40,16 +46,32 @@ const PublishOrDraftBlog = ({
     } catch {}
   }
 
-  return (
-    <div className="flex justify-center gap-4">
-      <button
-        className="button"
-        type="submit"
-        onClick={() => onPublishOrDraft()}
-      >
-        {draft ? "Publish Me" : "Draft me"}
-      </button>
+  const onDeleteBlog = async () => {
+    try {
+      await deleteBlog.mutateAsync({ id })
+    } catch {}
+  }
 
+  return (
+    <div className="flex gap-4 justify-center">
+      <div className="flex justify-center gap-4">
+        <button
+          className="button"
+          type="submit"
+          onClick={() => onPublishOrDraft()}
+        >
+          {draft ? "Publish Me" : "Draft me"}
+        </button>
+      </div>
+      <div className="flex justify-center gap-4">
+        <button
+          className="button"
+          type="submit"
+          onClick={() => onDeleteBlog()}
+        >
+          Delete Me
+        </button>
+      </div>
     </div>
   )
 }

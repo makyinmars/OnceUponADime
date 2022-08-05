@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"
+import { useEffect } from "react"
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -17,11 +17,18 @@ import Loading from "@/components/common/loading"
 
 const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { id } = props
+  const utils = trpc.useContext()
   const { data, isLoading } = trpc.useQuery(["blog.getPublishedBlog", { id }])
   const { data: blogComments } = trpc.useQuery([
     "comment.getCommentsByBlogId",
     { blogId: id },
   ])
+
+  useEffect(() => {
+    if (data) {
+      utils.invalidateQueries(["blog.getPublishedBlog", { id }])
+    }
+  }, [data, utils, id])
 
   return (
     <div className="container p-4 mx-auto">
