@@ -58,9 +58,18 @@ const BlogModal = ({
 
   const utils = trpc.useContext()
 
-  const updateBlog = trpc.useMutation("blog.updateBlog", {
+  const updateDraft = trpc.useMutation("blog.updateBlog", {
     async onSuccess() {
       await utils.invalidateQueries(["blog.getDraftBlog", { id }])
+      await utils.invalidateQueries(["blog.getDraftBlogs"])
+      closeModal()
+    },
+  })
+
+  const updatePublished = trpc.useMutation("blog.updateBlog", {
+    async onSuccess() {
+      await utils.invalidateQueries(["blog.getAdminPublishedBlog", { id }])
+      await utils.invalidateQueries(["blog.getAdminPublishedBlogs"])
       closeModal()
     },
   })
@@ -70,8 +79,12 @@ const BlogModal = ({
       if (editorRef.current) {
         data.content = editorRef.current.getContent() as string
       }
-      const updatedBlog = await updateBlog.mutateAsync(data)
-      console.log(updatedBlog)
+      if (data.draft) {
+        await updateDraft.mutateAsync(data)
+      }
+      if (data.published) {
+        await updatePublished.mutateAsync(data)
+      }
     } catch {}
   }
 
