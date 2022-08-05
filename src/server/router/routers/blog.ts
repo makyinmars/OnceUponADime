@@ -113,6 +113,7 @@ export const blogRouter = createRouter()
           imageUrl: z.string(),
         }),
         async resolve({ input, ctx }) {
+          console.log(input)
           return await ctx.prisma.blog.update({
             where: { id: input.id },
             data: input,

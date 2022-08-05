@@ -21,7 +21,7 @@ model Blog {
   published Boolean   @default(false)
   Comments  Comment[]
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Comment {
@@ -32,7 +32,7 @@ model Comment {
   blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
   blogId    String
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
