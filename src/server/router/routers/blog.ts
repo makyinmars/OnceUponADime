@@ -61,6 +61,27 @@ export const blogRouter = createRouter()
       })
     },
   })
+  .query("searchPublishedBlogs", {
+    input: z.object({
+      search: z.string(),
+    }),
+    async resolve({ input, ctx }) {
+      return await ctx.prisma.blog.findMany({
+        where: {
+          published: {
+            equals: true,
+          },
+          title: {
+            contains: input.search,
+          },
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
+        select: defaultBlogSelect,
+      })
+    },
+  })
   .merge(
     protectedRouter
       .query("getAdminPublishedBlogs", {

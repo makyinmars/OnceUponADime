@@ -22,6 +22,7 @@ const Blogs = ({ blogs }: BlogsProps) => {
                 width={390}
                 height={250}
                 className="rounded-lg"
+                priority={true}
               />
               <div className="flex flex-col w-full gap-4">
                 <h3 className="text-center subtitle">{blog.title}</h3>
@@ -32,7 +33,7 @@ const Blogs = ({ blogs }: BlogsProps) => {
                   {formatDateDay(blog.createdAt)}
                 </p>
                 {blog.updatedAt !== blog.createdAt && (
-                  <p className="md:text-lg text-center">
+                  <p className="text-center md:text-lg">
                     Last updated {formatDateDay(blog.updatedAt)}
                   </p>
                 )}
