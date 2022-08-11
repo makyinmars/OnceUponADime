@@ -1,5 +1,5 @@
 import type { InferGetStaticPropsType } from "next"
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import superjson from "superjson"
 import { createSSGHelpers } from "@trpc/react/ssg"
 
@@ -13,13 +13,26 @@ import Meta from "@/components/common/meta"
 
 const Blogs = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { data, isLoading } = trpc.useQuery(["blog.getPublishedBlogs"])
-
   const [search, setSearch] = useState("")
+  const [blogData, setBlogData] = useState(data)
 
-  const { data: dataSearch, isLoading: isLoadingSearch } = trpc.useQuery([
-    "blog.searchPublishedBlogs",
-    { search: search },
+  const findPublishedBlogs = () => {
+    return (
+      data &&
+      data.filter((blog) => {
+        return blog.title.toLowerCase().includes(search.toLowerCase())
+      })
+    )
+  }
+
+  const findPublishedBlogsCallback = useCallback(findPublishedBlogs, [
+    data,
+    search,
   ])
+
+  useEffect(() => {
+    setBlogData(findPublishedBlogsCallback())
+  }, [findPublishedBlogsCallback])
 
   return (
     <div className="container p-4 mx-auto">
@@ -33,15 +46,21 @@ const Blogs = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         <input
           type="text"
           className="input"
-          placeholder="Search"
+          placeholder="Type to find a blog"
           onChange={(e) => setSearch(e.target.value)}
           value={search}
         />
+        <button
+          className="shadow button shadow-slate-700"
+          onClick={() => findPublishedBlogs()}
+        >
+          Search
+        </button>
       </div>
-      {isLoadingSearch && <Loading />}
+      {isLoading && <Loading />}
       <div className="flex flex-col gap-4">
-        {dataSearch && <BlogsCommon blogs={dataSearch} />}
-        {dataSearch && dataSearch.length <= 0 && (
+        {blogData && <BlogsCommon blogs={blogData} />}
+        {data && data.length <= 0 && (
           <p className="self-center font-bold text-slate-700 md:text-lg lg:text-xl">
             No results with that search. Try again :D
           </p>
@@ -62,7 +81,7 @@ export async function getStaticProps() {
     transformer: superjson,
   })
 
-  await ssg.fetchQuery("blog.getLatestPublishedBlogs")
+  await ssg.fetchQuery("blog.getPublishedBlogs")
 
   return {
     props: {
