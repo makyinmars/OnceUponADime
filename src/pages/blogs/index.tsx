@@ -50,12 +50,6 @@ const Blogs = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
           onChange={(e) => setSearch(e.target.value)}
           value={search}
         />
-        <button
-          className="shadow button shadow-slate-700"
-          onClick={() => findPublishedBlogs()}
-        >
-          Search
-        </button>
       </div>
       {isLoading && <Loading />}
       <div className="flex flex-col gap-4">
