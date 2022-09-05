@@ -14,7 +14,7 @@
     "@next-auth/prisma-adapter": "^1.0.4",
     "@prisma/client": "^4.3.1",
     "@tanstack/react-table": "^8.5.5",
-    "@tinymce/tinymce-react": "^4.1.0",
+    "@tinymce/tinymce-react": "^4.2.0",
     "@trpc/client": "^9.26.0",
     "@trpc/next": "^9.26.0",
     "@trpc/react": "^9.26.0",
