@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -15,17 +14,10 @@ import BlogCommon from "src/components/common/blog"
 import Loading from "src/components/common/loading"
 
 const Blog = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const utils = trpc.useContext()
   const { data, isLoading } = trpc.blog.getPublishedBlog.useQuery({ id })
   const { data: blogComments } = trpc.comment.getCommentsByBlogId.useQuery({
     blogId: id,
   })
-
-  useEffect(() => {
-    if (data) {
-      utils.blog.getPublishedBlog.invalidate()
-    }
-  }, [data, utils, id])
 
   return (
     <div className="container p-4 mx-auto">
@@ -59,7 +51,7 @@ export async function getStaticProps(
       trpcState: ssg.dehydrate(),
       id,
     },
-    revalidate: 1,
+    revalidate: 600,
   }
 }
 
