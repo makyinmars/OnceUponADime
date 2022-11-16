@@ -4,7 +4,6 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
-import { createSSGHelpers } from "@trpc/react/ssg"
 import superjson from "superjson"
 
 import { trpc } from "src/utils/trpc"

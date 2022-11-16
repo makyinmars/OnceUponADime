@@ -1,7 +1,6 @@
 import type { InferGetStaticPropsType } from "next"
 import { useCallback, useEffect, useState } from "react"
 import superjson from "superjson"
-import { createSSGHelpers } from "@trpc/react/ssg"
 
 import { createContext } from "src/server/trpc/context"
 import { appRouter } from "src/server/trpc/router/_app"
