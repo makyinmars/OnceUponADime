@@ -1,21 +1,16 @@
-import type {
-  GetServerSidePropsContext,
-  GetStaticProps,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from "next"
 import Image from "next/image"
 import superjson from "superjson"
+import { createProxySSGHelpers } from "@trpc/react-query/ssg"
 
 import { trpc } from "src/utils/trpc"
 import { appRouter } from "src/server/trpc/router/_app"
-import { createContext } from "src/server/trpc/context"
+import { createContextInner } from "src/server/trpc/context"
 import Loading from "src/components/common/loading"
 import Blogs from "src/components/common/blogs"
 import Meta from "src/components/common/meta"
 
 const Home = () => {
-  const { data, isLoading } = trpc.blog.getLatestBlogs.useQuery()
+  const { data, isLoading } = trpc.blog.getLatestPublishedBlogs.useQuery()
   return (
     <div className="container mx-auto">
       <Meta
@@ -80,23 +75,19 @@ const Home = () => {
 
 export default Home
 
-/* export async function getStaticProps(context: GetServerSidePropsContext) { */
-/**/
-/*   const { req, res, session, prisma } = await createContext() */
-/**/
-/*   const ssg = createSSGHelpers({ */
-/*     router: appRouter, */
-/*     ctx: { req, res, session, prisma }, */
-/*     transformer: superjson, */
-/*   }) */
-/**/
-/*   await ssg.fetchQuery("blog.getLatestPublishedBlogs") */
-/**/
-/**/
-/*   return { */
-/*     props: { */
-/*       trpcState: , */
-/*     }, */
-/*     revalidate: 1, */
-/*   } */
-/* } */
+export async function getStaticProps() {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContextInner(),
+    transformer: superjson,
+  })
+
+  await ssg.blog.getLatestPublishedBlogs.prefetch()
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  }
+}

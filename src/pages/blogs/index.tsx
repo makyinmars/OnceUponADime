@@ -1,8 +1,8 @@
-import type { InferGetStaticPropsType } from "next"
 import { useCallback, useEffect, useState } from "react"
 import superjson from "superjson"
+import { createProxySSGHelpers } from "@trpc/react-query/ssg"
 
-import { createContext } from "src/server/trpc/context"
+import { createContextInner } from "src/server/trpc/context"
 import { appRouter } from "src/server/trpc/router/_app"
 import { trpc } from "src/utils/trpc"
 import BlogsCommon from "src/components/common/blogs"
@@ -64,21 +64,19 @@ const Blogs = () => {
 
 export default Blogs
 
-/* export async function getStaticProps() { */
-/*   const { req, res, session, prisma } = await createContext() */
-/**/
-/*   const ssg = createSSGHelpers({ */
-/*     router: appRouter, */
-/*     ctx: { req, res, session, prisma }, */
-/*     transformer: superjson, */
-/*   }) */
-/**/
-/*   await ssg.fetchQuery("blog.getPublishedBlogs") */
-/**/
-/*   return { */
-/*     props: { */
-/*       trpcState: ssg.dehydrate(), */
-/*     }, */
-/*     revalidate: 1, */
-/*   } */
-/* } */
+export async function getStaticProps() {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: await createContextInner(),
+    transformer: superjson,
+  })
+
+  await ssg.blog.getPublishedBlogs.prefetch()
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    revalidate: 1,
+  }
+}

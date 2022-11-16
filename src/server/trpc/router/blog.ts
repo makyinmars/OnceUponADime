@@ -48,7 +48,7 @@ export const blogRouter = t.router({
     })
   }),
 
-  getLatestBlogs: t.procedure.query(({ ctx }) => {
+  getLatestPublishedBlogs: t.procedure.query(({ ctx }) => {
     return ctx.prisma.blog.findMany({
       where: {
         published: {
