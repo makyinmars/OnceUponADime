@@ -1,13 +1,13 @@
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
-import { trpc } from "@/utils/trpc"
-import { useStore } from "@/utils/zustand"
-import Loading from "@/components/common/loading"
-import BlogCommon from "@/components/common/blog"
-import Meta from "@/components/common/meta"
-import BlogModal from "@/components/common/blog-modal"
-import PublishOrDraftBlog from "@/components/common/publish-draft-blog"
+import { trpc } from "src/utils/trpc"
+import { useStore } from "src/utils/zustand"
+import Loading from "src/components/common/loading"
+import BlogCommon from "src/components/common/blog"
+import Meta from "src/components/common/meta"
+import BlogModal from "src/components/common/blog-modal"
+import PublishOrDraftBlog from "src/components/common/publish-draft-blog"
 
 const DraftBlog = () => {
   const router = useRouter()
@@ -15,14 +15,10 @@ const DraftBlog = () => {
 
   const id = router.query.id as string
 
-  const { data, isError, isLoading } = trpc.useQuery([
-    "blog.getDraftBlog",
-    { id },
-  ])
-  const { data: blogComments } = trpc.useQuery([
-    "comment.getCommentsByBlogId",
-    { blogId: id },
-  ])
+  const { data, isError, isLoading } = trpc.blog.getDraftBlog.useQuery({ id })
+  const { data: blogComments } = trpc.comment.getCommentsByBlogId.useQuery({
+    blogId: id,
+  })
 
   useEffect(() => {
     if (!user?.isAdmin) {

@@ -5,9 +5,7 @@ const Header = () => {
   return (
     <header className="flex items-center pb-4 text-lg font-bold justify-evenly">
       <Link href="/">
-        <a>
-          <FcHome className="w-8 h-8" />
-        </a>
+        <FcHome className="w-8 h-8" />
       </Link>
       <Link href="/blogs">
         <div className="subtitle">blogs</div>

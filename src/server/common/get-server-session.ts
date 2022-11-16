@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext } from "next"
 import { unstable_getServerSession } from "next-auth"
-import { authOptions as nextAuthOptions } from "@/pages/api/auth/[...nextauth]"
+import { authOptions as nextAuthOptions } from "src/pages/api/auth/[...nextauth]"
 
-export const getOnceUponADimeAuthSession = async (ctx: {
+export const getServerAuthSession = async (ctx: {
   req: GetServerSidePropsContext["req"]
   res: GetServerSidePropsContext["res"]
 }) => {

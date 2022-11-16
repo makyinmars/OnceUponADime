@@ -1,19 +1,22 @@
-import type { InferGetStaticPropsType } from "next"
+import type {
+  GetServerSidePropsContext,
+  GetStaticProps,
+  GetStaticPropsContext,
+  InferGetStaticPropsType,
+} from "next"
 import { createSSGHelpers } from "@trpc/react/ssg"
 import Image from "next/image"
 import superjson from "superjson"
 
-import { trpc } from "@/utils/trpc"
-import { appRouter } from "@/server/router/"
-import { createContext } from "@/server/router/context"
+import { trpc } from "src/utils/trpc"
+import { appRouter } from "src/server/trpc/router/_app"
+import { createContext } from "src/server/trpc/context"
+import Loading from "src/components/common/loading"
+import Blogs from "src/components/common/blogs"
+import Meta from "src/components/common/meta"
 
-import Loading from "@/components/common/loading"
-import Blogs from "@/components/common/blogs"
-import Meta from "@/components/common/meta"
-
-const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { data, isLoading } = trpc.useQuery(["blog.getLatestPublishedBlogs"])
-
+const Home = () => {
+  const { data, isLoading } = trpc.blog.getLatestBlogs.useQuery()
   return (
     <div className="container mx-auto">
       <Meta
@@ -28,6 +31,7 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
             alt="Once Upon A Dime"
             width={250}
             height={250}
+            className="h-40 w-40"
           />
         </div>
         <h1 className="title">home message</h1>
@@ -77,21 +81,23 @@ const Home = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export default Home
 
-export async function getStaticProps() {
-  const { req, res, session, prisma } = await createContext()
-
-  const ssg = createSSGHelpers({
-    router: appRouter,
-    ctx: { req, res, session, prisma },
-    transformer: superjson,
-  })
-
-  await ssg.fetchQuery("blog.getLatestPublishedBlogs")
-
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-    },
-    revalidate: 1,
-  }
-}
+/* export async function getStaticProps(context: GetServerSidePropsContext) { */
+/**/
+/*   const { req, res, session, prisma } = await createContext() */
+/**/
+/*   const ssg = createSSGHelpers({ */
+/*     router: appRouter, */
+/*     ctx: { req, res, session, prisma }, */
+/*     transformer: superjson, */
+/*   }) */
+/**/
+/*   await ssg.fetchQuery("blog.getLatestPublishedBlogs") */
+/**/
+/**/
+/*   return { */
+/*     props: { */
+/*       trpcState: , */
+/*     }, */
+/*     revalidate: 1, */
+/*   } */
+/* } */

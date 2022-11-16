@@ -6,8 +6,7 @@
 
 @layer base {
   body {
-    background-color: #6f60bc;
-    @apply text-slate-200;
+    @apply bg-gradient-to-r from-indigo-200 via-purple-300 to-pink-200 text-slate-700;
   }
 }
 

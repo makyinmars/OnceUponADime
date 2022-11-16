@@ -3,8 +3,8 @@ import { FcHome } from "react-icons/fc"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
-import { useStore } from "@/utils/zustand"
-import Meta from "@/components/common/meta"
+import { useStore } from "src/utils/zustand"
+import Meta from "src/components/common/meta"
 
 interface AdminLayoutProps {
   children: React.ReactNode

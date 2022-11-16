@@ -7,26 +7,24 @@ import {
 import { createSSGHelpers } from "@trpc/react/ssg"
 import superjson from "superjson"
 
-import { trpc } from "@/utils/trpc"
-import { prisma } from "@/server/db/client"
-import { appRouter } from "@/server/router/"
-import { createContext } from "@/server/router/context"
+import { trpc } from "src/utils/trpc"
+import { prisma } from "src/server/db/client"
+import { appRouter } from "src/server/trpc/router/_app"
+import { createContext, createContextInner } from "src/server/trpc/context"
+import BlogCommon from "src/components/common/blog"
+import Loading from "src/components/common/loading"
 
-import BlogCommon from "@/components/common/blog"
-import Loading from "@/components/common/loading"
-
-const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { id } = props
+const Blog = () => {
+  const id = ""
   const utils = trpc.useContext()
-  const { data, isLoading } = trpc.useQuery(["blog.getPublishedBlog", { id }])
-  const { data: blogComments } = trpc.useQuery([
-    "comment.getCommentsByBlogId",
-    { blogId: id },
-  ])
+  const { data, isLoading } = trpc.blog.getPublishedBlog.useQuery({ id })
+  const { data: blogComments } = trpc.comment.getCommentsByBlogId.useQuery({
+    blogId: id,
+  })
 
   useEffect(() => {
     if (data) {
-      utils.invalidateQueries(["blog.getPublishedBlog", { id }])
+      utils.blog.getPublishedBlog.invalidate()
     }
   }, [data, utils, id])
 
@@ -40,42 +38,43 @@ const Blog = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export default Blog
 
-export async function getStaticProps(
-  context: GetStaticPropsContext<{ id: string }>
-) {
-  const { req, res, session, prisma } = await createContext()
-
-  const ssg = createSSGHelpers({
-    router: appRouter,
-    ctx: { req, res, session, prisma },
-    transformer: superjson,
-  })
-
-  const id = context.params?.id as string
-
-  await ssg.fetchQuery("blog.getPublishedBlog", { id })
-
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-      id,
-    },
-    revalidate: 1,
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const blogs = await prisma.blog.findMany({
-    where: {
-      published: true,
-    },
-    select: {
-      id: true,
-    },
-  })
-
-  return {
-    paths: blogs.map((blog) => ({ params: { id: blog.id } })),
-    fallback: false,
-  }
-}
+/* export async function getStaticProps( */
+/*   context: GetStaticPropsContext<{ id: string }> */
+/**/
+/* ) { */
+/*   const { session, prisma } = await createContextInner() */
+/**/
+/*   const ssg = createSSGHelpers({ */
+/*     router: appRouter, */
+/*     ctx: {  session, prisma }, */
+/*     transformer: superjson, */
+/*   }) */
+/**/
+/*   const id = context.params?.id as string */
+/**/
+/*   await ssg.fetchQuery("blog.getPublishedBlog", { id }) */
+/**/
+/*   return { */
+/*     props: { */
+/*       trpcState: ssg.dehydrate(), */
+/*       id, */
+/*     }, */
+/*     revalidate: 1, */
+/*   } */
+/* } */
+/**/
+/* export const getStaticPaths: GetStaticPaths = async () => { */
+/*   const blogs = await prisma.blog.findMany({ */
+/*     where: { */
+/*       published: true, */
+/*     }, */
+/*     select: { */
+/*       id: true, */
+/*     }, */
+/*   }) */
+/**/
+/*   return { */
+/*     paths: blogs.map((blog) => ({ params: { id: blog.id } })), */
+/*     fallback: false, */
+/*   } */
+/* } */

@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import LoadingSVG from "@/assets/puff.svg"
+import LoadingSVG from "src/assets/puff.svg"
 
 const Loading = () => {
   return (

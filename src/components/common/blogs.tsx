@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 
 import { Blog } from "@prisma/client"
-import { formatDateDay } from "@/utils/date"
+import { formatDateDay } from "src/utils/date"
 
 interface BlogsProps {
   blogs: Blog[] | undefined
@@ -22,7 +22,7 @@ const Blogs = ({ blogs }: BlogsProps) => {
                   alt={blog.title}
                   width={390}
                   height={250}
-                  className="rounded-lg"
+                  className="rounded-lg h-auto w-auto"
                   priority={true}
                 />
                 <div className="flex flex-col w-full gap-4">

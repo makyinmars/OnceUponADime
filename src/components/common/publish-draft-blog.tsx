@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 
-import { trpc } from "@/utils/trpc"
+import { trpc } from "src/utils/trpc"
 
 interface PublishOrDraftBlogProps {
   id: string
@@ -16,21 +16,22 @@ const PublishOrDraftBlog = ({
   const router = useRouter()
 
   const utils = trpc.useContext()
-  const publishBlog = trpc.useMutation(["blog.publisBlog"], {
+  const publishBlog = trpc.blog.publishBlog.useMutation({
     async onSuccess() {
-      await utils.invalidateQueries(["blog.getAdminPublishedBlogs"])
+      await utils.blog.getAdminPublishedBlogs.invalidate()
       router.push("/admin/published")
     },
   })
-  const draftBlog = trpc.useMutation(["blog.draftBlog"], {
+  const draftBlog = trpc.blog.draftBlog.useMutation({
     async onSuccess() {
-      await utils.invalidateQueries(["blog.getDraftBlogs"])
+      await utils.blog.getDraftBlogs.invalidate()
       router.push("/admin/drafts")
     },
   })
 
-  const deleteBlog = trpc.useMutation(["blog.deleteBlog"], {
+  const deleteBlog = trpc.blog.deleteBlog.useMutation({
     async onSuccess() {
+      // Check what type of blog deletes to invalidate the proper query
       router.push("/admin")
     },
   })
@@ -64,11 +65,7 @@ const PublishOrDraftBlog = ({
         </button>
       </div>
       <div className="flex justify-center gap-4">
-        <button
-          className="button"
-          type="submit"
-          onClick={() => onDeleteBlog()}
-        >
+        <button className="button" type="submit" onClick={() => onDeleteBlog()}>
           Delete Me
         </button>
       </div>

@@ -2,11 +2,11 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { useEffect } from "react"
 import { Comment, Blog } from "@prisma/client"
 
-import { trpc } from "@/utils/trpc"
-import HtmlParser from "@/components/common/html-parser"
+import { trpc } from "src/utils/trpc"
+import HtmlParser from "src/components/common/html-parser"
 import Meta from "./meta"
-import { formatDateDay } from "@/utils/date"
-import { useStore } from "@/utils/zustand"
+import { formatDateDay } from "src/utils/date"
+import { useStore } from "src/utils/zustand"
 
 interface BlogProps {
   blog: Blog | undefined
@@ -80,9 +80,9 @@ const CreateComment = ({ blogId }: CreateCommnetProps) => {
 
   const utils = trpc.useContext()
 
-  const createComment = trpc.useMutation("comment.createComment", {
+  const createComment = trpc.comment.createComment.useMutation({
     async onSuccess() {
-      await utils.invalidateQueries(["comment.getCommentsByBlogId", { blogId }])
+      await utils.comment.getCommentsByBlogId.invalidate({ blogId })
     },
   })
 
@@ -150,9 +150,9 @@ const DeleteComment = ({
   id: string
 }) => {
   const utils = trpc.useContext()
-  const deleteComment = trpc.useMutation("comment.deleteCommentById", {
+  const deleteComment = trpc.comment.deleteComment.useMutation({
     async onSuccess() {
-      await utils.invalidateQueries(["blog.getPublishedBlog", { id }])
+      await utils.blog.getPublishedBlog.invalidate({ id })
     },
   })
 

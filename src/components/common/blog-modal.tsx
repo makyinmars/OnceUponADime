@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect, useRef } from "react"
 import { Blog } from "@prisma/client"
 import { useForm, SubmitHandler } from "react-hook-form"
 
-import { trpc } from "@/utils/trpc"
+import { trpc } from "src/utils/trpc"
 
 interface BlogModalProps {
   id: string
@@ -58,18 +58,18 @@ const BlogModal = ({
 
   const utils = trpc.useContext()
 
-  const updateDraft = trpc.useMutation("blog.updateBlog", {
+  const updateDraft = trpc.blog.updateBlog.useMutation({
     async onSuccess() {
-      await utils.invalidateQueries(["blog.getDraftBlog", { id }])
-      await utils.invalidateQueries(["blog.getDraftBlogs"])
+      await utils.blog.getDraftBlog.invalidate({ id })
+      await utils.blog.getDraftBlogs.invalidate()
       closeModal()
     },
   })
 
-  const updatePublished = trpc.useMutation("blog.updateBlog", {
+  const updatePublished = trpc.blog.updateBlog.useMutation({
     async onSuccess() {
-      await utils.invalidateQueries(["blog.getAdminPublishedBlog", { id }])
-      await utils.invalidateQueries(["blog.getAdminPublishedBlogs"])
+      await utils.blog.getAdminPublishedBlog.invalidate({ id })
+      await utils.blog.getAdminPublishedBlogs.invalidate()
       closeModal()
     },
   })

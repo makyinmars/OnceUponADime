@@ -4,9 +4,9 @@ import { Blog } from "@prisma/client"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useRouter } from "next/router"
 
-import { trpc } from "@/utils/trpc"
-import { useStore } from "@/utils/zustand"
-import Meta from "@/components/common/meta"
+import { trpc } from "src/utils/trpc"
+import { useStore } from "src/utils/zustand"
+import Meta from "src/components/common/meta"
 
 const NewBlog = () => {
   const router = useRouter()
@@ -15,7 +15,7 @@ const NewBlog = () => {
 
   const { register, handleSubmit } = useForm<Blog>()
 
-  const createBlog = trpc.useMutation(["blog.createBlog"])
+  const createBlog = trpc.blog.createBlog.useMutation()
 
   const onSubmit: SubmitHandler<Blog> = async (data) => {
     if (editorRef.current) {

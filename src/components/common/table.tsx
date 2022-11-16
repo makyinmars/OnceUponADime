@@ -1,4 +1,3 @@
-import { formatDateDay } from "@/utils/date"
 import { Blog } from "@prisma/client"
 import Link from "next/link"
 import {
@@ -8,6 +7,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import React from "react"
+
+import { formatDateDay } from "src/utils/date"
 
 interface TableProps {
   blogs: Blog[]

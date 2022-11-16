@@ -1,17 +1,17 @@
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
-import Loading from "@/components/common/loading"
-import Table from "@/components/common/table"
-import { trpc } from "@/utils/trpc"
-import { useStore } from "@/utils/zustand"
-import Meta from "@/components/common/meta"
+import Loading from "src/components/common/loading"
+import Table from "src/components/common/table"
+import { trpc } from "src/utils/trpc"
+import { useStore } from "src/utils/zustand"
+import Meta from "src/components/common/meta"
 
 const Drafts = () => {
   const router = useRouter()
   const { user } = useStore()
 
-  const { data, isError, isLoading } = trpc.useQuery(["blog.getDraftBlogs"])
+  const { data, isError, isLoading } = trpc.blog.getDraftBlogs.useQuery()
   const utils = trpc.useContext()
 
   useEffect(() => {
@@ -21,8 +21,8 @@ const Drafts = () => {
   }, [router, user?.isAdmin])
 
   useEffect(() => {
-      if (data) {
-        utils.invalidateQueries(["blog.getDraftBlogs"])
+    if (data) {
+      utils.blog.getDraftBlogs.invalidate()
     }
   }, [data, utils])
 
