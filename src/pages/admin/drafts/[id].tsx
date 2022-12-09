@@ -1,30 +1,20 @@
-import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 
 import { trpc } from "src/utils/trpc"
-import { useStore } from "src/utils/zustand"
 import Loading from "src/components/common/loading"
 import BlogCommon from "src/components/common/blog"
 import Meta from "src/components/common/meta"
 import BlogModal from "src/components/common/blog-modal"
 import PublishOrDraftBlog from "src/components/common/publish-draft-blog"
+import { ssrInit } from "src/utils/ssg"
 
-const DraftBlog = () => {
-  const router = useRouter()
-  const { user } = useStore()
-
-  const id = router.query.id as string
-
+const DraftBlog = ({
+  id,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data, isError, isLoading } = trpc.blog.getDraftBlog.useQuery({ id })
   const { data: blogComments } = trpc.comment.getCommentsByBlogId.useQuery({
     blogId: id,
   })
-
-  useEffect(() => {
-    if (!user?.isAdmin) {
-      router.push("/")
-    }
-  }, [router, user?.isAdmin])
 
   if (isError) {
     return <div>Error!</div>
@@ -61,3 +51,51 @@ const DraftBlog = () => {
 }
 
 export default DraftBlog
+
+export async function getServerSideProps(
+  context: GetServerSidePropsContext<{ id: string }>
+) {
+  const { ssg, session } = await ssrInit(context)
+
+  const email = session?.user?.email as string
+
+  if (email) {
+    const user = await ssg.user.getAdminByEmail.fetch({ email })
+
+    if (user) {
+      const id = context.params?.id as string
+      await ssg.blog.getDraftBlog.prefetch({ id })
+      await ssg.comment.getCommentsByBlogId.prefetch({
+        blogId: id,
+      })
+      return {
+        props: {
+          trpcState: ssg.dehydrate(),
+          id,
+        },
+      }
+    } else {
+      return {
+        props: {
+          trpcState: ssg.dehydrate(),
+          id: null,
+        },
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      }
+    }
+  } else {
+    return {
+      props: {
+        trpcState: ssg.dehydrate(),
+        id: null,
+      },
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
+}

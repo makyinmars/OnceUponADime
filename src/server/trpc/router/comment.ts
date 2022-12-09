@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client"
+import { TRPCError } from "@trpc/server"
 import { z } from "zod"
 
 import { t, authedProcedure } from "../trpc"
@@ -32,18 +33,25 @@ export const commentRouter = t.router({
   getCommentsByBlogId: t.procedure
     .input(
       z.object({
-        blogId: z.string(),
+        blogId: z.string().nullable(),
       })
     )
     .query(({ ctx, input: { blogId } }) => {
-      return ctx.prisma.comment.findMany({
-        where: {
-          blogId,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      })
+      if (blogId) {
+        return ctx.prisma.comment.findMany({
+          where: {
+            blogId,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        })
+      } else {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are not allowed to comment",
+        })
+      }
     }),
 
   deleteComment: authedProcedure

@@ -1,16 +1,16 @@
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
+import { GetServerSidePropsContext } from "next"
 import { Editor } from "@tinymce/tinymce-react"
 import { Blog } from "@prisma/client"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useRouter } from "next/router"
 
 import { trpc } from "src/utils/trpc"
-import { useStore } from "src/utils/zustand"
 import Meta from "src/components/common/meta"
+import { ssrInit } from "src/utils/ssg"
 
 const NewBlog = () => {
   const router = useRouter()
-  const { user } = useStore()
   const editorRef = useRef<any>(null)
 
   const { register, handleSubmit } = useForm<Blog>()
@@ -26,12 +26,6 @@ const NewBlog = () => {
       }
     }
   }
-
-  useEffect(() => {
-    if (!user?.isAdmin) {
-      router.push("/")
-    }
-  }, [router, user?.isAdmin])
 
   return (
     <div>
@@ -119,3 +113,41 @@ const NewBlog = () => {
 }
 
 export default NewBlog
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { ssg, session } = await ssrInit(context)
+
+  const email = session?.user?.email as string
+
+  if (email) {
+    const user = await ssg.user.getAdminByEmail.fetch({ email })
+
+    if (user) {
+      return {
+        props: {
+          trpcState: ssg.dehydrate(),
+        },
+      }
+    } else {
+      return {
+        props: {
+          trpcState: ssg.dehydrate(),
+        },
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      }
+    }
+  } else {
+    return {
+      props: {
+        trpcState: ssg.dehydrate(),
+      },
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client"
+import { TRPCError } from "@trpc/server"
 import { z } from "zod"
 
 import { t, authedProcedure } from "../trpc"
@@ -89,19 +90,26 @@ export const blogRouter = t.router({
   getAdminPublishedBlog: authedProcedure
     .input(
       z.object({
-        id: z.string(),
+        id: z.string().nullable(),
       })
     )
     .query(({ ctx, input: { id } }) => {
-      return ctx.prisma.blog.findFirstOrThrow({
-        where: {
-          id,
-          published: {
-            equals: true,
+      if (id) {
+        return ctx.prisma.blog.findFirstOrThrow({
+          where: {
+            id,
+            published: {
+              equals: true,
+            },
           },
-        },
-        select: defaultBlogSelect,
-      })
+          select: defaultBlogSelect,
+        })
+      } else {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are not allowed to edit this blog",
+        })
+      }
     }),
 
   getAdminPublishedBlogs: authedProcedure.query(({ ctx }) => {
@@ -197,14 +205,21 @@ export const blogRouter = t.router({
   getDraftBlog: authedProcedure
     .input(
       z.object({
-        id: z.string(),
+        id: z.string().nullable(),
       })
     )
     .query(({ ctx, input: { id } }) => {
-      return ctx.prisma.blog.findFirstOrThrow({
-        where: { id, draft: true },
-        select: defaultBlogSelect,
-      })
+      if (id) {
+        return ctx.prisma.blog.findFirstOrThrow({
+          where: { id, draft: true },
+          select: defaultBlogSelect,
+        })
+      } else {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are forbidden",
+        })
+      }
     }),
 
   getDraftBlogs: authedProcedure.query(({ ctx }) => {

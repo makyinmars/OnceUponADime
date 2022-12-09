@@ -1,13 +1,11 @@
 import Image from "next/image"
-import superjson from "superjson"
-import { createProxySSGHelpers } from "@trpc/react-query/ssg"
+import { GetServerSidePropsContext } from "next"
 
 import { trpc } from "src/utils/trpc"
-import { appRouter } from "src/server/trpc/router/_app"
-import { createContextInner } from "src/server/trpc/context"
 import Loading from "src/components/common/loading"
 import Blogs from "src/components/common/blogs"
 import Meta from "src/components/common/meta"
+import { ssrInit } from "src/utils/ssg"
 
 const Home = () => {
   const { data, isLoading } = trpc.blog.getLatestPublishedBlogs.useQuery()
@@ -75,12 +73,8 @@ const Home = () => {
 
 export default Home
 
-export async function getStaticProps() {
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: await createContextInner(),
-    transformer: superjson,
-  })
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { ssg } = await ssrInit(context)
 
   await ssg.blog.getLatestPublishedBlogs.prefetch()
 
@@ -88,6 +82,5 @@ export async function getStaticProps() {
     props: {
       trpcState: ssg.dehydrate(),
     },
-    revalidate: 1,
   }
 }

@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
-import superjson from "superjson"
-import { createProxySSGHelpers } from "@trpc/react-query/ssg"
+import { GetServerSidePropsContext } from "next"
 
-import { createContextInner } from "src/server/trpc/context"
-import { appRouter } from "src/server/trpc/router/_app"
 import { trpc } from "src/utils/trpc"
 import BlogsCommon from "src/components/common/blogs"
 import Loading from "src/components/common/loading"
 import Meta from "src/components/common/meta"
+import { ssrInit } from "src/utils/ssg"
 
 const Blogs = () => {
   const { data, isLoading } = trpc.blog.getPublishedBlogs.useQuery()
@@ -64,12 +62,8 @@ const Blogs = () => {
 
 export default Blogs
 
-export async function getStaticProps() {
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: await createContextInner(),
-    transformer: superjson,
-  })
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { ssg } = await ssrInit(context)
 
   await ssg.blog.getPublishedBlogs.prefetch()
 
@@ -77,6 +71,5 @@ export async function getStaticProps() {
     props: {
       trpcState: ssg.dehydrate(),
     },
-    revalidate: 1,
   }
 }

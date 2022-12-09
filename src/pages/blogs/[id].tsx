@@ -1,19 +1,13 @@
-import {
-  GetStaticPaths,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from "next"
-import superjson from "superjson"
-import { createProxySSGHelpers } from "@trpc/react-query/ssg"
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 
 import { trpc } from "src/utils/trpc"
-import { prisma } from "src/server/db/client"
-import { appRouter } from "src/server/trpc/router/_app"
-import { createContextInner } from "src/server/trpc/context"
 import BlogCommon from "src/components/common/blog"
 import Loading from "src/components/common/loading"
+import { ssrInit } from "src/utils/ssg"
 
-const Blog = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Blog = ({
+  id,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { data, isLoading } = trpc.blog.getPublishedBlog.useQuery({ id })
   const { data: blogComments } = trpc.comment.getCommentsByBlogId.useQuery({
     blogId: id,
@@ -29,16 +23,11 @@ const Blog = ({ id }: InferGetStaticPropsType<typeof getStaticProps>) => {
 
 export default Blog
 
-export async function getStaticProps(
-  context: GetStaticPropsContext<{ id: string }>
+export async function getServerSideProps(
+  context: GetServerSidePropsContext<{ id: string }>
 ) {
+  const { ssg } = await ssrInit(context)
   const id = context.params?.id as string
-
-  const ssg = createProxySSGHelpers({
-    router: appRouter,
-    ctx: await createContextInner(),
-    transformer: superjson,
-  })
 
   await ssg.blog.getPublishedBlog.prefetch({ id })
 
@@ -51,22 +40,5 @@ export async function getStaticProps(
       trpcState: ssg.dehydrate(),
       id,
     },
-    revalidate: 600,
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const blogs = await prisma.blog.findMany({
-    where: {
-      published: true,
-    },
-    select: {
-      id: true,
-    },
-  })
-
-  return {
-    paths: blogs.map((blog) => ({ params: { id: blog.id } })),
-    fallback: false,
   }
 }

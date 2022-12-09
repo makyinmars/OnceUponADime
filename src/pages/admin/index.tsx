@@ -1,34 +1,22 @@
 import Link from "next/link"
 import { FcHome } from "react-icons/fc"
-import { useRouter } from "next/router"
-import { useEffect } from "react"
-
-import { useStore } from "src/utils/zustand"
 import Meta from "src/components/common/meta"
+import { GetServerSidePropsContext } from "next"
+
+import { ssrInit } from "src/utils/ssg"
 
 interface AdminLayoutProps {
   children: React.ReactNode
 }
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {
-  const router = useRouter()
-  const { user } = useStore()
-
-  useEffect(() => {
-    if (!user?.isAdmin) {
-      router.push("/")
-    }
-  }, [router, user?.isAdmin])
-
   return (
     <div>
       <Meta title="Admin" description="" keywords="" />
       <div>
-        <Link href="/admin">
-          <a className="flex items-center justify-center gap-4">
-            <FcHome className="w-8 h-8" />
-            <span>Dashboard</span>
-          </a>
+        <Link href="/admin" className="flex items-center justify-center gap-4">
+          <FcHome className="w-8 h-8" />
+          <span>Dashboard</span>
         </Link>
         <div className="flex justify-evenly">
           <Link href="/admin/drafts">
@@ -48,3 +36,42 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 }
 
 export default AdminLayout
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { ssg, session } = await ssrInit(context)
+
+  const email = session?.user?.email as string
+
+  if (email) {
+    const user = await ssg.user.getAdminByEmail.fetch({ email })
+
+    if (user) {
+      return {
+        props: {
+          trpcState: ssg.dehydrate(),
+        },
+      }
+    }else{
+    return {
+      props: {
+        trpcState: ssg.dehydrate(),
+      },
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+
+    }
+  } else {
+    return {
+      props: {
+        trpcState: ssg.dehydrate(),
+      },
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
+}

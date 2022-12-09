@@ -1,30 +1,14 @@
-import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { GetServerSidePropsContext } from "next"
 
 import { trpc } from "src/utils/trpc"
-import { useStore } from "src/utils/zustand"
 import Loading from "src/components/common/loading"
 import Table from "src/components/common/table"
 import Meta from "src/components/common/meta"
+import { ssrInit } from "src/utils/ssg"
 
 const Published = () => {
-  const { user } = useStore()
   const { data, isError, isLoading } =
     trpc.blog.getAdminPublishedBlogs.useQuery()
-
-  const router = useRouter()
-  const utils = trpc.useContext()
-  useEffect(() => {
-    if (!user?.isAdmin) {
-      router.push("/")
-    }
-  }, [router, user?.isAdmin])
-
-  useEffect(() => {
-    if (data) {
-      utils.blog.getAdminPublishedBlog.invalidate()
-    }
-  }, [data, utils])
 
   if (isError) {
     return <div>Error!</div>
@@ -41,3 +25,42 @@ const Published = () => {
 }
 
 export default Published
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { ssg, session } = await ssrInit(context)
+
+  const email = session?.user?.email as string
+
+  if (email) {
+    const user = await ssg.user.getAdminByEmail.fetch({ email })
+
+    if (user) {
+      await ssg.blog.getAdminPublishedBlogs.prefetch()
+      return {
+        props: {
+          trpcState: ssg.dehydrate(),
+        },
+      }
+    } else {
+      return {
+        props: {
+          trpcState: ssg.dehydrate(),
+        },
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      }
+    }
+  } else {
+    return {
+      props: {
+        trpcState: ssg.dehydrate(),
+      },
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    }
+  }
+}
