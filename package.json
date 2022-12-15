@@ -39,7 +39,7 @@
     "@types/react-dom": "18.0.5",
     "autoprefixer": "^10.4.8",
     "eslint": "8.18.0",
-    "eslint-config-next": "12.2.1",
+    "eslint-config-next": "13.0.7",
     "postcss": "^8.4.14",
     "prisma": "^4.1.1",
     "react-icons": "^4.4.0",
